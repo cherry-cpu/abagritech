@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Download Application Form - Aakasha Bindu Agritech</title>
+        <meta name="description" content="Download your exam application form using Transaction / UTR Number">
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="./images/Logo.png">
+
+        <!-- Bootstrap 5 CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="styles.css">
+
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    </head>
+    <body>
+
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="./images/Logo.png" alt="Aakasha Bindu Agritech Logo" class="navbar-logo">
+                    </a>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="index.html#products">Products</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="index.html#careers">Careers</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="contact.html" class="active">Contact</a></li>
+                    </ul>
+                    <div class="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Page Hero -->
+        <section class="page-hero">
+            <div class="container">
+                <h1>Download Application Form</h1>
+                <p>Enter your Transaction / UTR Number to download your application form</p>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="contact-form">
+                            
+                            <h2 class="mb-4">Enter Transaction / UTR Number</h2>
+                            
+                            <!-- Error Messages -->
+                            <div id="errorMessage" class="alert alert-danger" role="alert" style="display: none;">
+                                <i class="bi bi-exclamation-triangle"></i> <span id="errorText"></span>
+                            </div>
+                            
+                            <!-- Success Messages -->
+                            <div id="successMessage" class="alert alert-success" role="alert" style="display: none;">
+                                <i class="bi bi-check-circle"></i> <span id="successText"></span>
+                            </div>
+                            
+                            <form method="POST" action="download_application.php">
+                                <div class="mb-3">
+                                    <label for="transaction_id" class="form-label">Transaction / UTR Number <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="transaction_id" name="transaction_id" value="" required placeholder="Enter your Transaction / UTR Number">
+                                    <small class="form-text text-muted">Enter the Transaction / UTR Number you used when submitting your application.</small>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary-custom btn-lg">
+                                        <i class="bi bi-download"></i> Download Application Form
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h3>Aakasha Bindu Agritech</h3>
+                        <p>Leading the way in organic pesticide innovation for sustainable farming. Protecting crops, preserving nature.</p>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="index.html#products">Products</a></li>
+                            <li><a href="team.html">Team</a></li>
+                            <li><a href="index.html#careers">Careers</a></li>
+                            <li><a href="gallery.html">Gallery</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="exam_application.html">Exam Application</a></li>
+                            <li><a href="download_application.html">Download Application</a></li>
+                            <li><a href="download_hallticket.html">Download Hall Ticket</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>Contact Info</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> F.No 202, Radha Residency, Near Dmart Rudrampeta, Anantapur - 515 004. A.P.</p>
+                        <p><i class="fas fa-phone"></i> +91 93903 44299</p>
+                        <p><i class="fas fa-envelope"></i> info@abagritech.com</p>
+                    </div>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Aakasha Bindu Agritech. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Back to Top Button -->
+        <button class="back-to-top" id="backToTop" aria-label="Back to top">
+            <i class="bi bi-arrow-up"></i>
+        </button>
+
+        <!-- Bootstrap 5 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Custom JS -->
+        <script>
+            const backToTopButton = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            const currentPage = window.location.pathname.split('/').pop() || 'download_application.php';
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('href') === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Handle error messages from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            if (error) {
+                switch(error) {
+                    case 'empty':
+                        errorText.textContent = 'Please enter a Transaction / UTR Number.';
+                        break;
+                    case 'notfound':
+                        errorText.textContent = 'No application found with the provided Transaction / UTR Number. Please verify and try again.';
+                        break;
+                    case 'filenotfound':
+                        errorText.textContent = 'PDF file not found. Please contact support.';
+                        break;
+                    case 'database':
+                        errorText.textContent = 'Database error occurred. Please try again later or contact support.';
+                        break;
+                    default:
+                        errorText.textContent = 'An error occurred. Please try again.';
+                }
+                errorMessage.style.display = 'block';
+                // Scroll to error message
+                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        </script>
+    </body>
+</html>

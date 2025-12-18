@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Block admin & system folders
+Disallow: /admin/
+Disallow: /login/
+Disallow: /wp-admin/
+Disallow: /cgi-bin/
+
+# Block duplicate or filter pages
+Disallow: /*?*
+
+# Allow CSS & JS for proper rendering
+Allow: /wp-admin/admin-ajax.php
+
+# Sitemap location
+Sitemap: https://www.abagritech.com/sitemap.xml

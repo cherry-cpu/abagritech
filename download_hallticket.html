@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Hall Ticket - Aakasha Bindu Agritech</title>
+    <meta name="description" content="Download your exam hall ticket using Application ID">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="./images/Logo.png">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <a href="index.html">
+                <img src="./images/Logo.png" alt="Aakasha Bindu Agritech Logo" class="navbar-logo">
+            </a>
+        </div>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="index.html#products">Products</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="index.html#careers">Careers</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="videos.html">Videos</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Page Hero -->
+<section class="page-hero">
+    <div class="container">
+        <h1>Download Hall Ticket</h1>
+        <p>Enter your Application ID to download your hall ticket</p>
+    </div>
+</section>
+
+<!-- Form Section -->
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="contact-form">
+
+                    <h2 class="mb-4">Enter Application ID</h2>
+
+                    <!-- Error Messages -->
+                    <div id="errorMessage" class="alert alert-danger" role="alert" style="display:none;">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        <span id="errorText"></span>
+                    </div>
+
+                    <form method="POST" action="download_hallticket.php">
+                        <div class="mb-3">
+                            <label for="application_id" class="form-label">
+                                Application ID <span class="text-danger">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="application_id"
+                                name="application_id"
+                                required
+                                placeholder="Enter your Application ID">
+                            <small class="form-text text-muted">
+                                Enter the Application ID provided after successful submission.
+                            </small>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary-custom btn-lg">
+                                <i class="bi bi-download"></i> Download Hall Ticket
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Aakasha Bindu Agritech</h3>
+                    <p>Leading the way in organic pesticide innovation for sustainable farming. Protecting crops, preserving nature.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="index.html#products">Products</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="index.html#careers">Careers</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="exam_application.html">Exam Application</a></li>
+                        <li><a href="download_application.html">Download Application</a></li>
+                        <li><a href="download_hallticket.html">Download Hall Ticket</a></li>
+
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> F.No 202, Radha Residency, Near Dmart Rudrampeta, Anantapur - 515 004. A.P.</p>
+                    <p><i class="fas fa-phone"></i> +91 93903 44299</p>
+                    <p><i class="fas fa-envelope"></i> info@abagritech.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aakasha Bindu Agritech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Error handling -->
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    const errorMessage = document.getElementById('errorMessage');
+    const errorText = document.getElementById('errorText');
+
+    if (error) {
+        switch(error) {
+            case 'empty':
+                errorText.textContent = 'Please enter your Application ID.';
+                break;
+            case 'notfound':
+                errorText.textContent = 'No hall ticket found for this Application ID.';
+                break;
+            default:
+                errorText.textContent = 'An error occurred. Please try again.';
+        }
+        errorMessage.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>

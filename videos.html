@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videos - Aakasha Bindu Agritech</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .videos-section {
+            padding: 3rem 0;
+        }
+        
+        .videos-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .videos-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .videos-intro h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color, #2c5530);
+            margin-bottom: 1rem;
+        }
+        
+        .videos-intro p {
+            font-size: 1.1rem;
+            color: var(--text-color, #666);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .video-item {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-item iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .channel-embed-container {
+            width: 100%;
+            min-height: 600px;
+            margin-bottom: 3rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .channel-embed-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        
+        .channel-link .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+        }
+        
+        .channel-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .channel-header {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .channel-header h2 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .channel-header p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+        
+        .channel-header .btn {
+            display: inline-block;
+            background: white;
+            color: #ff0000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .channel-header .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .channel-embed-container iframe {
+                height: 400px;
+            }
+            
+            .videos-intro h2 {
+                font-size: 2rem;
+            }
+            
+            .channel-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="./images/Logo.png" alt="Aakasha Bindu Agritech Logo" class="navbar-logo">
+                </a>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="index.html#products">Products</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="index.html#careers">Careers</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="videos.html" class="active">Videos</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Videos</h1>
+            <p>Watch our latest videos and learn about our products and services</p>
+        </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section class="videos-section">
+        <div class="videos-container">
+            <div class="videos-intro">
+                <h2>Our YouTube Channel</h2>
+                <p>Explore our collection of videos showcasing our products, farming techniques, and agricultural solutions.</p>
+            </div>
+            
+            <!-- Channel Header -->
+            <div class="channel-header">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">
+                    <i class="fab fa-youtube"></i>
+                </div>
+                <h2>Aakasha Bindu Agritech</h2>
+                <p>Watch our latest videos about organic farming, pest control solutions, and agricultural innovations.</p>
+                <a href="https://www.youtube.com/@AB.agritech" target="_blank" rel="noopener noreferrer" class="btn">
+                    <i class="fab fa-youtube"></i> Visit Our YouTube Channel
+                </a>
+            </div>
+            
+            <!-- YouTube Channel Videos Grid -->
+            <div class="videos-grid" id="videosGrid">
+                <!-- Videos will be dynamically loaded here -->
+                <!-- See JavaScript section below to add your video IDs -->
+            </div>
+            
+            <!-- Instructions Box (hidden when videos are loaded) -->
+            <div id="instructionsBox" style="background: #f8f9fa; border-left: 4px solid #ff0000; padding: 2rem; border-radius: 8px; margin: 2rem 0;">
+                <h3 style="color: #ff0000; margin-bottom: 1rem;">
+                    <i class="fab fa-youtube"></i> How to Add Videos
+                </h3>
+                <ol style="line-height: 2; color: #666;">
+                    <li>Go to <a href="https://www.youtube.com/@AB.agritech/videos" target="_blank" style="color: #ff0000; font-weight: 600;">your YouTube channel</a></li>
+                    <li>Click on any video you want to embed</li>
+                    <li>Copy the video ID from the URL (the part after <code>?v=</code>)</li>
+                    <li>Add the video ID to the <code>videoIds</code> array in the JavaScript section below</li>
+                    <li>The video will automatically appear on this page</li>
+                </ol>
+                <p style="margin-top: 1rem; color: #666;">
+                    <strong>Example:</strong> If your video URL is <code>youtube.com/watch?v=abc123xyz</code>, 
+                    then add <code>'abc123xyz'</code> to the videoIds array.
+                </p>
+            </div>
+            
+            <!-- Channel Description -->
+            <div class="channel-link">
+                <p style="margin-bottom: 1.5rem; color: var(--text-color, #666); font-size: 1.1rem; line-height: 1.8;">
+                    Subscribe to our YouTube channel to stay updated with our latest content including product demonstrations, 
+                    farming techniques, success stories, and expert advice on organic agriculture and pest management.
+                </p>
+                <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://www.youtube.com/@AB.agritech/videos" target="_blank" rel="noopener noreferrer" 
+                       style="color: #ff0000; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-video"></i> View All Videos
+                    </a>
+                    <span style="color: #ccc;">|</span>
+                    <a href="https://www.youtube.com/@AB.agritech" target="_blank" rel="noopener noreferrer" 
+                       style="color: #ff0000; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <i class="fab fa-youtube"></i> Subscribe to Channel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Aakasha Bindu Agritech</h3>
+                    <p>Leading the way in organic pesticide innovation for sustainable farming. Protecting crops, preserving nature.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="index.html#products">Products</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="index.html#careers">Careers</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="exam_application.html">Exam Application</a></li>
+                        <li><a href="download_application.html">Download Application</a></li>
+                        <li><a href="download_hallticket.html">Download Hall Ticket</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> F.No 202, Radha Residency, Near Dmart Rudrampeta, Anantapur - 515 004. A.P.</p>
+                    <p><i class="fas fa-phone"></i> +91 93903 44299</p>
+                    <p><i class="fas fa-envelope"></i> info@abagritech.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aakasha Bindu Agritech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // ============================================
+        // YOUTUBE VIDEOS CONFIGURATION
+        // ============================================
+        // Add your YouTube video IDs below
+        // Get video IDs from: https://www.youtube.com/@AB.agritech/videos
+        // Video ID is the part after ?v= in the URL
+        // Example: youtube.com/watch?v=abc123xyz → video ID is 'abc123xyz'
+        
+        const videoIds = [
+            'SyPYgGKLtZc',
+            'Dx4csdIAPnQ',
+            'JvH_1Veu2ds',
+            '7vMEeJvtd9c',
+            'sX9tz4BKpjQ',
+            'sMMXDX9CFcA'
+        ];
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const videosGrid = document.getElementById('videosGrid');
+            const instructionsBox = document.getElementById('instructionsBox');
+            
+            // Function to create video embed element
+            function createVideoEmbed(videoId, index = 0) {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item';
+                videoItem.innerHTML = `
+                    <iframe 
+                        src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1"
+                        title="Aakasha Bindu Agritech Video ${index + 1}"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                `;
+                return videoItem;
+            }
+            
+            // Load videos if IDs are provided
+            if (videoIds.length > 0) {
+                // Hide instructions
+                if (instructionsBox) {
+                    instructionsBox.style.display = 'none';
+                }
+                
+                // Clear grid
+                videosGrid.innerHTML = '';
+                
+                // Create and append video embeds
+                videoIds.forEach((videoId, index) => {
+                    // Clean the video ID (remove any extra characters)
+                    const cleanId = videoId.trim().replace(/['"]/g, '');
+                    
+                    if (cleanId && cleanId.length > 0) {
+                        const videoEmbed = createVideoEmbed(cleanId, index);
+                        videosGrid.appendChild(videoEmbed);
+                    }
+                });
+            } else {
+                // Show placeholder if no videos
+                videosGrid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #666;">
+                        <i class="fab fa-youtube" style="font-size: 4rem; color: #ff0000; margin-bottom: 1.5rem; display: block;"></i>
+                        <h3 style="color: #333; margin-bottom: 1rem;">No Videos Added Yet</h3>
+                        <p style="font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.8;">
+                            Add your YouTube video IDs to the <code>videoIds</code> array in the JavaScript section<br>
+                            to display your channel videos here.
+                        </p>
+                        <a href="https://www.youtube.com/@AB.agritech/videos" target="_blank" rel="noopener noreferrer" 
+                           class="btn btn-primary-custom" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                            <i class="fab fa-youtube"></i> Visit Our YouTube Channel
+                        </a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

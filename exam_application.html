@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Application - Aakasha Bindu Agritech</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="./images/Logo.png" alt="Aakasha Bindu Agritech Logo" class="navbar-logo">
+                </a>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="index.html#products">Products</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="index.html#careers">Careers</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Exam Application</h1>
+            <p>Apply for Agriculture Field Officer positions</p>
+        </div>
+    </section>
+
+    <!-- Application Form Section -->
+    <section class="application-section">
+        <div class="container">
+            <div class="application-form-container">
+                <h2 class="form-main-title">Application Form</h2>
+                
+                <form class="application-form" id="applicationForm" method="POST" action="submit_application.php" enctype="multipart/form-data">
+                    
+                    <h3 class="form-section-title">Personal Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="full_name">Full Name (as per SSC) *</label>
+                        <input type="text" id="full_name" name="full_name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date_of_birth">Date of Birth (as per SSC) *</label>
+                            <input type="date" id="date_of_birth" name="date_of_birth" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gender">Gender *</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">-- Select --</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Id *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone No *</label>
+                            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="father_name">Father Name</label>
+                            <input type="text" id="father_name" name="father_name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aadhar">Aadhar No</label>
+                            <input type="text" id="aadhar" name="aadhar" pattern="[0-9]{12}" placeholder="Enter 12-digit Aadhar number">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="caste">Caste</label>
+                            <input type="text" id="caste" name="caste">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <textarea id="address" name="address" rows="3"></textarea>
+                    </div>
+
+                    <h3 class="form-section-title">Educational Qualifications</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ssc_year">SSC passed out Year</label>
+                            <input type="number" id="ssc_year" name="ssc_year" min="1980" max="2025">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ssc_percentage">SSC Percentage/CGPA</label>
+                            <input type="text" id="ssc_percentage" name="ssc_percentage" placeholder="e.g., 85 or 8.5">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="inter_year">Intermediate passed out Year</label>
+                            <input type="number" id="inter_year" name="inter_year" min="1980" max="2025">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inter_percentage">Intermediate Percentage/CGPA</label>
+                            <input type="text" id="inter_percentage" name="inter_percentage" placeholder="e.g., 85 or 8.5">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="degree_year">Degree passed out Year</label>
+                            <input type="number" id="degree_year" name="degree_year" min="1980" max="2025">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="degree_percentage">Degree Percentage/CGPA</label>
+                            <input type="text" id="degree_percentage" name="degree_percentage" placeholder="e.g., 85 or 8.5">
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Application Details</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="position">Applying for *</label>
+                            <select id="position" name="position" required>
+                                <option value="">-- Select --</option>
+                                <option value="MAFO">Mandal Agriculture Field Officer</option>
+                                <option value="DAFO">Divisional Agriculture Field Officer</option>
+                                <option value="RAFO">Regional Agriculture Field Officer</option>
+                                <option value="ZAFO">Zonal Agriculture Field Officer</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exam_center">Preferred Exam Center *</label>
+                            <select id="exam_center" name="exam_center" required>
+                                <option value="">-- Select --</option>
+                                <option value="Adilabad">Adilabad</option>
+                                <option value="Alluri Sitharama Raju">Alluri Sitharama Raju</option>
+                                <option value="Anakapalli">Anakapalli</option>
+                                <option value="Anantapur">Anantapur</option>
+                                <option value="Ananthapuramu">Ananthapuramu</option>
+                                <option value="Annamayya">Annamayya</option>
+                                <option value="Bapatla">Bapatla</option>
+                                <option value="Chittoor">Chittoor</option>
+                                <option value="Dr. B. R. Ambedkar Konaseema">Dr. B. R. Ambedkar Konaseema</option>
+                                <option value="East Godavari">East Godavari</option>
+                                <option value="Eluru">Eluru</option>
+                                <option value="Guntur">Guntur</option>
+                                <option value="Hyderabad">Hyderabad</option>
+                                <option value="Kakinada">Kakinada</option>
+                                <option value="Karimnagar">Karimnagar</option>
+                                <option value="Khammam">Khammam</option>
+                                <option value="Krishna">Krishna</option>
+                                <option value="Kurnool">Kurnool</option>
+                                <option value="Madanapalle">Madanapalle</option>
+                                <option value="Mahabubnagar">Mahabubnagar</option>
+                                <option value="Markapuram">Markapuram</option>
+                                <option value="Medak">Medak</option>
+                                <option value="Nalgonda">Nalgonda</option>
+                                <option value="Nandyal">Nandyal</option>
+                                <option value="Nizamabad">Nizamabad</option>
+                                <option value="NTR">NTR</option>
+                                <option value="Palnadu">Palnadu</option>
+                                <option value="Parvathipuram Manyam">Parvathipuram Manyam</option>
+                                <option value="Prakasam">Prakasam</option>
+                                <option value="Ranga Reddy">Ranga Reddy</option>
+                                <option value="Sri Potti Sriramulu Nellore">Sri Potti Sriramulu Nellore</option>
+                                <option value="Sri Sathya Sai">Sri Sathya Sai</option>
+                                <option value="Srikakulam">Srikakulam</option>
+                                <option value="Tirupati">Tirupati</option>
+                                <option value="Visakhapatnam">Visakhapatnam</option>
+                                <option value="Vizianagaram">Vizianagaram</option>
+                                <option value="Warangal">Warangal</option>
+                                <option value="West Godavari">West Godavari</option>
+                                <option value="YSR Kadapa">YSR Kadapa</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">Upload Documents</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="photo">Upload Photo *</label>
+                            <input type="file" id="photo" name="photo" accept="image/jpeg,image/jpg,image/png" required>
+                            <small class="file-hint">Max size 1 MB, jpg/png only</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="signature">Upload Signature *</label>
+                            <input type="file" id="signature" name="signature" accept="image/jpeg,image/jpg,image/png" required>
+                            <small class="file-hint">Max size 1 MB, jpg/png only</small>
+                        </div>
+                    </div>
+
+                    <div class="payment-info-box">
+                        <h4><i class="fas fa-credit-card"></i> Payment Instructions</h4>
+                        <p>Pay the Entrance Exam Fee online using the payment gateway below. After successful payment, the transaction ID will be automatically filled.</p>
+                        <div class="exam-fee-display">
+                            <strong>Exam Fee: ₹1,200/-</strong>
+                        </div>
+                        <div class="payment-gateway-section">
+                            <button type="button" id="payButton" class="btn btn-payment">
+                                <i class="fas fa-lock"></i> Pay ₹1,200/- Now
+                            </button>
+                            <p class="payment-note">
+                                <i class="fas fa-shield-alt"></i> Secure payment powered by Razorpay
+                            </p>
+                            <div class="payment-status" id="paymentStatus" style="display: none;">
+                                <i class="fas fa-check-circle"></i>
+                                <span id="paymentStatusText"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transaction_id">Transaction Id Number / UTR Number *</label>
+                        <input type="text" id="transaction_id" name="transaction_id" placeholder="Transaction ID will be auto-filled after payment" required readonly>
+                        <small class="file-hint">Transaction ID will be automatically filled after successful payment</small>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" name="terms" required>
+                            I confirm that all information provided is correct and I have paid the exam fee *
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Submit Application</button>
+                        <button type="reset" class="btn btn-outline">Reset Form</button>
+                    </div>
+                    <div class="payment-required-note" id="paymentRequiredNote">
+                        <i class="fas fa-info-circle"></i> Please complete the payment first to enable form submission
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Message (hidden by default) -->
+    <div class="success-message" id="successMessage" style="display: none;">
+        <div class="container">
+            <div class="success-content">
+                <i class="fas fa-check-circle"></i>
+                <h2>Application Submitted Successfully!</h2>
+                <p>Thank you for your application.</p>
+                <p>Your Application ID is:</p>
+                <p class="application-id"><strong id="applicationId"></strong></p>
+                <p>We will contact you soon regarding the examination schedule.</p>
+                <a href="index.html" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Aakasha Bindu Agritech</h3>
+                    <p>Leading the way in organic pesticide innovation for sustainable farming. Protecting crops, preserving nature.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="index.html#products">Products</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="index.html#careers">Careers</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="exam_application.html">Exam Application</a></li>
+                        <li><a href="download_application.html">Download Application</a></li>
+                        <li><a href="download_hallticket.html">Download Hall Ticket</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> F.No 202, Radha Residency, Near Dmart Rudrampeta, Anantapur - 515 004. A.P.</p>
+                    <p><i class="fas fa-phone"></i> +91 93903 44299</p>
+                    <p><i class="fas fa-envelope"></i> info@abagritech.com</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Aakasha Bindu Agritech. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Razorpay Configuration
+        // NOTE: Replace these with your actual Razorpay keys
+        const RAZORPAY_KEY_ID = 'rzp_test_RpwfYVsuUzWVMU' //'rzp_live_RrvL9p6OF2hGP1'; // Replace with your Razorpay Key ID
+        const EXAM_FEE = 1200; // Amount in rupees
+
+        let paymentCompleted = false;
+        let razorpayTransactionId = '';
+
+        // File size validation
+        document.getElementById('photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.size > 1048576) { // 1 MB
+                alert('Photo file size must be less than 1 MB');
+                this.value = '';
+            }
+        });
+
+        document.getElementById('signature').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.size > 1048576) { // 1 MB
+                alert('Signature file size must be less than 1 MB');
+                this.value = '';
+            }
+        });
+
+        // Payment button handler
+        document.getElementById('payButton').addEventListener('click', function() {
+            // Validate required fields before payment
+            const fullName = document.getElementById('full_name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const position = document.getElementById('position').value;
+
+            if (!fullName || !email || !phone || !position) {
+                alert('Please fill in all required fields (Name, Email, Phone, Position) before making payment.');
+                return;
+            }
+
+            if (phone.length !== 10) {
+                alert('Please enter a valid 10-digit phone number.');
+                return;
+            }
+
+            // Create order and initiate payment
+            initiatePayment();
+        });
+
+        function initiatePayment() {
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: EXAM_FEE * 100, // Amount in paise (1200 * 100 = 120000 paise)
+                currency: 'INR',
+                name: 'Aakasha Bindu Agritech',
+                description: 'Exam Application Fee',
+                image: '', // Add your logo URL here
+                handler: function(response) {
+                    // Payment successful
+                    paymentCompleted = true;
+                    razorpayTransactionId = response.razorpay_payment_id;
+                    
+                    // Update UI
+                    document.getElementById('transaction_id').value = response.razorpay_payment_id;
+                    document.getElementById('transaction_id').readOnly = false;
+                    document.getElementById('paymentStatus').style.display = 'block';
+                    document.getElementById('paymentStatusText').textContent = 'Payment Successful! Transaction ID: ' + response.razorpay_payment_id;
+                    document.getElementById('paymentStatus').className = 'payment-status success';
+                    document.getElementById('payButton').style.display = 'none';
+                    document.getElementById('submitBtn').disabled = false;
+                    document.getElementById('paymentRequiredNote').style.display = 'none';
+                    
+                    // Show success message
+                    alert('Payment successful! Transaction ID: ' + response.razorpay_payment_id);
+                },
+                prefill: {
+                    name: document.getElementById('full_name').value,
+                    email: document.getElementById('email').value,
+                    contact: document.getElementById('phone').value
+                },
+                notes: {
+                    address: 'Exam Application Fee',
+                    position: document.getElementById('position').value
+                },
+                theme: {
+                    color: '#2d5016' // Your brand color
+                },
+                modal: {
+                    ondismiss: function() {
+                        console.log('Payment cancelled');
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            
+            rzp.on('payment.failed', function(response) {
+                // Payment failed
+                document.getElementById('paymentStatus').style.display = 'block';
+                document.getElementById('paymentStatusText').textContent = 'Payment Failed: ' + response.error.description;
+                document.getElementById('paymentStatus').className = 'payment-status failed';
+                alert('Payment failed. Please try again.');
+            });
+
+            rzp.open();
+        }
+
+        // Form submission handling
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check if payment is completed
+            if (!paymentCompleted || !razorpayTransactionId) {
+                alert('Please complete the payment first before submitting the application.');
+                return false;
+            }
+
+            const phone = document.getElementById('phone').value;
+            if (phone.length !== 10) {
+                alert('Please enter a valid 10-digit phone number.');
+                return false;
+            }
+
+            // Disable submit button to prevent double submission
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            // Create FormData object
+            const formData = new FormData(this);
+
+            // Submit form data to PHP backend
+            fetch('submit_application.php', {
+                method: 'POST',
+                body: formData,
+                mode: 'cors',
+                credentials: 'omit'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Success - show success message
+                    document.querySelector('.application-section').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('applicationId').textContent = data.application_id;
+                    
+                    // Scroll to success message
+                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Error - show error message
+                    alert('Error: ' + (data.message || 'Unknown error occurred'));
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Application';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting the application. Please check your internet connection and try again. If the problem persists, contact support.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Application';
+            });
+        });
+
+        // Reset form handler
+        document.querySelector('button[type="reset"]').addEventListener('click', function() {
+            paymentCompleted = false;
+            razorpayTransactionId = '';
+            document.getElementById('transaction_id').value = '';
+            document.getElementById('transaction_id').readOnly = true;
+            document.getElementById('paymentStatus').style.display = 'none';
+            document.getElementById('payButton').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('paymentRequiredNote').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
+
