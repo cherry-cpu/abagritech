@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Include configuration file
 require_once 'config.php';
-require_once 'generate_pdf.php';
-require_once 'send_whatsapp.php';
+//require_once 'generate_pdf.php';
+//require_once 'send_whatsapp.php';
 
 // Create database connection
 try {
@@ -31,7 +31,7 @@ try {
     error_log('Database connection error: ' . $e->getMessage());
     exit;
 }
-
+error_log('aa==='.$_SERVER["REQUEST_METHOD"]);
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -216,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'transaction_id' => $transaction_id
             ];
             
-            $pdf_path = generateApplicationPDF($application_data, $photo_path, $signature_path, $upload_dir);
+           /* $pdf_path =generateApplicationPDF($application_data, $photo_path, $signature_path, $upload_dir);
             if ($pdf_path) {
                 error_log('PDF generated successfully: ' . $pdf_path);
                 
@@ -237,7 +237,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
             } else {
                 error_log('PDF generation failed');
-            }
+            }*/
         } catch (Exception $e) {
             error_log('Error generating PDF: ' . $e->getMessage());
             $upload_errors[] = 'Failed to generate PDF: ' . $e->getMessage();

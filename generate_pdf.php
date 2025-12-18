@@ -20,11 +20,11 @@ try {
 /* ===============================
    VALIDATE REQUEST
    =============================== */
-if ($_SERVER['REQUEST_METHOD'] !== 'GET' || empty($_GET['transaction_id'])) {
+/*if ($_SERVER['REQUEST_METHOD'] !== 'GET' || empty($_GET['transaction_id'])) {
     http_response_code(400);
     exit('Invalid request');
 }
-
+*/
 $transaction_id = trim($_GET['transaction_id']);
 
 /* ===============================
@@ -55,7 +55,7 @@ SELECT
     e.photo_path,
     e.signature_path
 FROM exam_applications e
-WHERE e.transaction_id = :transaction_id
+WHERE e.transaction_id = :transaction_id or e.application_id=:transaction_id
 LIMIT 1
 ";
 
