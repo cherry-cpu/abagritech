@@ -101,7 +101,7 @@ $pdf->AddPage();
 $pdf->SetFont('dejavusans', '', 12);
 // title
 // $pdf->ln(10);
-$pdf->Image('test/logo.PNG',(($pdf->getPageWidth()-50)/2),10,50,0, 'PNG', '','RTLM');
+$pdf->Image('images/Logo.png',(($pdf->getPageWidth()-50)/2),10,50,0, 'PNG', '','RTLM');
 $pdf->ln(20);
 $pdf->WriteHTML('<h1>Application Form</h1>', align:'C');
 $pdf->ln(10);
