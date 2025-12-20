@@ -69,86 +69,135 @@ if (!$data) {
     exit('Application not found');
 }
 
-/* ===============================
-   TCPDF SETUP
-   =============================== */
-$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-$pdf->SetTitle('Application Form');
-$pdf->SetMargins(15, 15, 15);
-$pdf->SetAutoPageBreak(true, 15);
+$photo_path=$data['photo_path'];
+$signature_path=$data['signature_path'];
+$transaction_id=$data['transaction_id'];
+$dat_of_birth=$data['date_of_birth'];
+$full_name=$data['full_name'];
+$gender=$data['gender'];
+$caste=$data['caste'];
+$father_name=$data['father_name'];
+$phone=$data['phone'];
+$mail=$data['email'];
+$address=$data['address'];
+$aadhar_no=$data['aadhar'];
+$ssc_year=$data['ssc_year'];
+$ssc_percentage=$data['ssc_percentage'];
+$inter_year=$data['inter_year'];
+$inter_percentage=$data['inter_percentage'];
+$degree_year=$data['degree_year'];
+$degree_percentage=$data['degree_percentage'];
+$position=$data['position'];
+$exam_center=$data['exam_center'];
+$application_id=$data['application_id'];
+$transaction_id=$data['transaction_id'];
+//$submitted_on=$data['submitted_on'];
+
+// Create new PDF document
+$pdf = new TCPDF();
+// Add a page
 $pdf->AddPage();
+// Set font
+$pdf->SetFont('dejavusans', '', 12);
+// title
+// $pdf->ln(10);
+$pdf->Image('test/logo.PNG',(($pdf->getPageWidth()-50)/2),10,50,0, 'PNG', '','RTLM');
+$pdf->ln(20);
+$pdf->WriteHTML('<h1>Application Form</h1>', align:'C');
+$pdf->ln(10);
+$html = '<html>
+<table border="1" cellPadding="5">
+    <tr>
+        <th colspan="4" class="heading"><h2>Personal Details</h2></th>
+        <th rowspan="4">
+            <img src=".'.$photo_path.'" alt="photo" height="90" width="90">
+            <img src=".'.$signature_path.'" alt="photo" height="45"  width="90">
+        </th>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <td class="side_variable">Application Id</td>
+        <td colspan="3">'.$application_id.'</td>
+    </tr>
+        <tr>
+        <td class="side_variable">Full Name</td>
+        <td colspan="3">'.$full_name.'</td>
+    </tr>
+    <tr>
+        <td colspan="1" class="side_variable">Date of Birth</td>
+        <td colspan="1">'.$dat_of_birth.'</td>
+        <td colspan="1" class="side_variable">Transaction Id</td>
+        <td colspan="2">'.$transaction_id.'</td>
+    </tr>
+        <tr>
+        <td class="side_variable">Gender</td>
+        <td>'.$gender.'</td>
+        <td class="side_variable">Caste</td>
+        <td colspan="2">'.$caste.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">Father Name</td>
+        <td colspan="4">'.$father_name.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">Phone</td>
+        <td>'.$phone.'</td>
+        <td class="side_variable">Mail</td>
+        <td colspan="2">'.$mail.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">Address</td>
+        <td colspan="4">'.$address.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">Aadhar No</td>
+        <td colspan="4">'.$aadhar_no.'</td>
+    </tr>
+    <tr style="height: 25px;">
 
-/* ===============================
-   LOGO
-   =============================== */
-$logoPath = __DIR__ . '/images/Logo.png';
-if (file_exists($logoPath)) {
-    $pdf->Image($logoPath, 80, 15, 50);
-    $pdf->Ln(30);
-}
+    </tr>
+    <tr>
+        <th colspan="5" class="heading"><h2>Educational Qualifications</h2></th>
+    </tr>
+    <tr>
+        <td class="side_variable">SSC YEAR</td>
+        <td colspan="2">'.$ssc_year.'</td>
+        <td class="side_variable">SSC CGPA</td>
+        <td>'.$ssc_percentage.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">INTERMEDIATE YEAR</td>
+        <td colspan="2">'.$inter_year.'</td>
+        <td class="side_variable">INTERMEDIATE CGPA</td>
+        <td>'.$inter_percentage.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">DEGREE YEAR</td>
+        <td colspan="2">'.$degree_year.'</td>
+        <td class="side_variable">DEGREE CGPA</td>
+        <td>'.$degree_percentage.'</td>
+    </tr>
+        <tr style="height: 25px;">
 
-/* ===============================
-   HEADER
-   =============================== */
-$pdf->SetFont('helvetica', 'B', 16);
-$pdf->Cell(0, 10, 'APPLICATION FORM', 0, 1, 'C');
-$pdf->Ln(5);
-
-/* ===============================
-   PHOTO
-   =============================== */
-if (!empty($data['photo_path'])) {
-    $photo = __DIR__ . '/' . ltrim($data['photo_path'], '/');
-    if (file_exists($photo)) {
-        $pdf->Image($photo, 150, 50, 40);
-        $pdf->Ln(25);
-    }
-}
-
-/* ===============================
-   DETAILS TABLE
-   =============================== */
-
-$pdf->SetFont('helvetica', '', 11);
-$html = '
-<table cellpadding="6" border="1">
-<tr><td><b>Application ID</b></td><td>'.$data['application_id'].'</td></tr>
-<tr><td><b>Full Name</b></td><td>'.$data['full_name'].'</td></tr>
-<tr><td><b>Father Name</b></td><td>'.$data['father_name'].'</td></tr>
-<tr><td><b>Date of Birth</b></td><td>'.$data['date_of_birth'].'</td></tr>
-<tr><td><b>Age</b></td><td>'.$data['age'].'</td></tr>
-<tr><td><b>Gender</b></td><td>'.$data['gender'].'</td></tr>
-<tr><td><b>Email</b></td><td>'.$data['email'].'</td></tr>
-<tr><td><b>Phone</b></td><td>'.$data['phone'].'</td></tr>
-<tr><td><b>Aadhar</b></td><td>'.$data['aadhar'].'</td></tr>
-<tr><td><b>Caste</b></td><td>'.$data['caste'].'</td></tr>
-<tr><td><b>Address</b></td><td>'.$data['address'].'</td></tr>
-<tr><td><b>SSC Year</b></td><td>'.$data['ssc_year'].'</td></tr>
-<tr><td><b>SSC %</b></td><td>'.$data['ssc_percentage'].'</td></tr>
-<tr><td><b>Inter Year</b></td><td>'.$data['inter_year'].'</td></tr>
-<tr><td><b>Inter %</b></td><td>'.$data['inter_percentage'].'</td></tr>
-<tr><td><b>Degree Year</b></td><td>'.$data['degree_year'].'</td></tr>
-<tr><td><b>Degree %</b></td><td>'.$data['degree_percentage'].'</td></tr>
-<tr><td><b>Position</b></td><td>'.$data['position'].'</td></tr>
-<tr><td><b>Exam Center</b></td><td>'.$data['exam_center'].'</td></tr>
-<tr><td><b>Transaction ID</b></td><td>'.$data['transaction_id'].'</td></tr>
-<tr><td><b>Generated On</b></td><td>'.date('d M Y H:i:s').'</td></tr>
+    </tr>
+    <tr>
+        <th colspan="5" class="heading"><h2>Application Details</h2></th>
+    </tr>
+    <tr>
+        <td class="side_variable">Applying For</td>
+        <td colspan="2">'.$position.'</td>
+        <td class="side_variable">Exam Center</td>
+        <td colspan="2">'.$exam_center.'</td>
+    </tr>
 </table>
+<style>
+.heading{font-weight:bold; background-color: #e9f4f5;}
+.side_variable{font-weight:200; ;background-color: #e8f5e9;}
+</style>
 ';
 
 $pdf->writeHTML($html);
-
-/* ===============================
-   SIGNATURE
-   =============================== */
-if (!empty($data['signature_path'])) {
-    $sign = __DIR__ . '/' . ltrim($data['signature_path'], '/');
-    if (file_exists($sign)) {
-        $pdf->Ln(25);
-        $pdf->Image($sign, 140, $pdf->GetY(), 40);
-        $pdf->Cell(0, 10, 'Candidate Signature', 0, 1, 'R');
-    }
-}
 
 /* ===============================
    OUTPUT
