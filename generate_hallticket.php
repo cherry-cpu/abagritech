@@ -1,8 +1,8 @@
 <?php
-ob_start(); // prevent TCPDF output errors
+ob_start();
 
 require_once 'config.php';
-require_once __DIR__ . '/tcpdf/tcpdf.php';
+require_once 'tcpdf/tcpdf.php';
 
 /* ===============================
    DB CONNECTION
@@ -14,22 +14,21 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
     ]);
 } catch (PDOException $e) {
-    error_log($e->getMessage());
     exit('Database connection failed');
 }
 
 /* ===============================
    VALIDATE REQUEST
    =============================== */
-if ($_SERVER['REQUEST_METHOD'] !== 'GET' || empty($_GET['id'])) {
+/*if ($_SERVER['REQUEST_METHOD'] !== 'GET' || empty($_GET['transaction_id'])) {
     http_response_code(400);
     exit('Invalid request');
 }
-
+*/
 $application_id = trim($_GET['id']);
 
 /* ===============================
-   FETCH DATA
+   FETCH APPLICATION DATA
    =============================== */
 $sql = "
 SELECT 
@@ -40,14 +39,15 @@ SELECT
     e.gender,
     e.email,
     e.phone,
-    c.district_name,
-    c.address,
-    c.exam_date,
+    e.age,
+    e.aadhar,
+    e.position,
+    e.exam_center,
+    e.transaction_id,
     e.photo_path,
     e.signature_path
 FROM exam_applications e
-LEFT JOIN exam_centers c ON e.exam_center = c.district_name
-WHERE e.application_id = :application_id
+WHERE e.application_id=:application_id
 LIMIT 1
 ";
 
@@ -61,89 +61,152 @@ if (!$data) {
     exit('Application not found');
 }
 
-/* ===============================
-   TCPDF SETUP
-   =============================== */
-$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-$pdf->SetCreator('Exam System');
-$pdf->SetAuthor('Admin');
-$pdf->SetTitle('Hall Ticket');
-$pdf->SetMargins(15, 15, 15);
-$pdf->SetAutoPageBreak(true, 15);
+$photo_path=$data['photo_path'];
+$signature_path=$data['signature_path'];
+$transaction_id=$data['transaction_id'];
+$date_of_birth=$data['date_of_birth'];
+$full_name=$data['full_name'];
+$gender=$data['gender'];
+$father_name=$data['father_name'];
+$phone=$data['phone'];
+$mail=$data['email'];
+$aadhar_no=$data['aadhar'];
+$position=$data['position'];
+$exam_center=$data['exam_center'];
+$transaction_id=$data['transaction_id'];
+//$submitted_on=$data['submitted_on'];
+
+/*$sql = "
+SELECT e.address FROM exam_centers e
+WHERE e.district_name = :district ;";
+
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':district', $data['exam_center']);
+$stmt->execute();
+$exam_center_data = $stmt->fetch();
+ */
+$exam_center_address="exam_address";
+
+// Create new PDF document
+$pdf = new TCPDF();
+
+// Set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Your Name');
+$pdf->SetTitle('My First PDF');
+$pdf->SetSubject('TCPDF Tutorial');
+
+
+// Add a page
 $pdf->AddPage();
+// Set font
+$pdf->SetFont('dejavusans', '', 12);
+// title
+// $pdf->ln(10);
+$pdf->Image('LOGO.PNG',(($pdf->getPageWidth()-50)/2),10,50,0, 'PNG', '','RTLM');
+$pdf->ln(20);
+$pdf->WriteHTML('<h1>Hall Ticket</h1>', align:'C');
+$pdf->ln(10);
+// Add image
+// $pdf->Image('photo.jpg', 0, 0, 25*1.5, 25*2, 'JPG');
 
-/* ===============================
-   LOGO (NEW)
-   =============================== */
-$logoPath = __DIR__ . '/images/Logo.png';
-if (file_exists($logoPath)) {
-    $startY = 25; // push logo down to avoid overlap
-    $pdf->SetY($startY);
-    $pdf->Image($logoPath, 80, $startY, 50); // centered logo
-    $pdf->Ln(25); // reserve space below logo
-} else {
-    $pdf->Ln(15);
-}
+// image(path, x, y, w, h, type, link, align)
+$html = '<html>
+<table border="1" cellPadding="5">
+    <tr>
+        <th colspan="4" class="heading"><h2>Personal details</h2></th>
+        <th rowspan="4">
+            <img src="'.$photo_path.'" alt="photo" height="90" width="90">
+            <img src="'.$signature_path.'" alt="photo" height="45"  width="90">
+        </th>
+    </tr>
+    <tr>
+    </tr>
+    <tr>
+        <td class="side_variable">Application Id</td>
+        <td colspan="3">'.$application_id.'</td>
+    </tr>
+        <tr>
+        <td class="side_variable">Full Name</td>
+        <td colspan="3">'.$full_name.'</td>
+    </tr>
+    <tr>
+        <td colspan="1" class="side_variable">Hall Ticket No</td>
+        <td colspan="4">'.$hallticket.'</td>
+    </tr>
+    <tr>
+        <td colspan="1" class="side_variable">Date of Birth</td>
+        <td colspan="1">'.$date_of_birth.'</td>
+        <td class="side_variable">Gender</td>
+        <td colspan="2">'.$gender.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">Father Name</td>
+        <td colspan="4">'.$father_name.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">Phone</td>
+        <td>'.$phone.'</td>
+        <td class="side_variable">Mail</td>
+        <td colspan="2">'.$mail.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">Aadhar No</td>
+        <td colspan="4">'.$aadhar_no.'</td>
+    </tr>
+    <tr style="height: 25px;">
 
-/* ===============================
-   HEADER
-   =============================== */
-$pdf->SetFont('helvetica', 'B', 16);
-$pdf->Cell(0, 10, 'EXAM HALL TICKET', 0, 1, 'C');
-$pdf->Ln(5);
-
-/* ===============================
-   PROFILE PHOTO
-   =============================== */
-   if (!empty($data['photo_path'])) {
-    $photoAbsolute = __DIR__ . '/' . ltrim($data['photo_path'], '/');
-    if (file_exists($photoAbsolute)) {
-        $pdf->Image($photoAbsolute, 80, $pdf->GetY(), 50);
-        $pdf->Ln(75);
-    } else {
-        $pdf->Ln(10);
-    }
-} else {
-    $pdf->Ln(10);
-}
-
-/* ===============================
-   DETAILS TABLE
-   =============================== */
-$pdf->SetFont('helvetica', '', 11);
-$html = '
-<table cellpadding="6" border="1">
-<tr><td width="30%"><b>Application ID</b></td><td width="70%">'.$data['application_id'].'</td></tr>
-<tr><td><b>Full Name</b></td><td>'.$data['full_name'].'</td></tr>
-<tr><td><b>Father Name</b></td><td>'.$data['father_name'].'</td></tr>
-<tr><td><b>Date of Birth</b></td><td>'.$data['date_of_birth'].'</td></tr>
-<tr><td><b>Gender</b></td><td>'.$data['gender'].'</td></tr>
-<tr><td><b>Email</b></td><td>'.$data['email'].'</td></tr>
-<tr><td><b>Phone</b></td><td>'.$data['phone'].'</td></tr>
-<tr><td><b>Exam Center</b></td><td>'.$data['district_name'].'</td></tr>
-<tr><td><b>Center Address</b></td><td>'.$data['address'].'</td></tr>
-<tr><td><b>Exam Date</b></td><td>'.$data['exam_date'].'</td></tr>
+    </tr>
+    <tr>
+        <td class="side_variable">Exam For</td>
+        <td colspan="1">'.$position.'</td>
+        <td class="side_variable">Exam Center</td>
+        <td colspan="2">'.$exam_center.'</td>
+    </tr>
+    <tr>
+        <td class="side_variable">Exam Center Address</td>
+        <td colspan="4">'.$exam_center_address.'</td>
+    </tr>
 </table>
+<style>
+.heading{font-weight:bold; background-color: #e9f4f5;}
+.side_variable{font-weight:200; ;background-color: #e8f5e9;}
+</style>
 ';
-$pdf->writeHTML($html, true, false, true, false, '');
 
-/* ===============================
-   SIGNATURE
-   =============================== */
-   if (!empty($data['signature_path'])) {
-    $signatureAbsolute = __DIR__ . '/' . ltrim($data['signature_path'], '/');
-    if (file_exists($signatureAbsolute)) {
-        $pdf->Ln(10);
-        $pdf->Image($signatureAbsolute, 140, $pdf->GetY(), 40);
-        $pdf->Ln(20);
-        $pdf->Cell(0, 10, 'Candidate Signature', 0, 1, 'R');
-    }
-}
+$pdf->writeHTML($html);
 
-/* ===============================
-   OUTPUT PDF
-   =============================== */
+$pdf->AddPage();
+$pdf->ln(15);
+$pdf->WriteHTML('<h3 style="font-weight:150;">Hall ticket should be preserved till the end of the examinations</h3>', align:'C');
+$pdf->WriteHTML('<h1>INSTRUCTIONS TO THE CANDIDATES</h1>', align:'C');
+$pdf->ln(5);
+
+
+$pdf->MultiCell($pdf->getPageWidth(),0,'1. The candidates are held responsible for obtaining correct question paper from the Invigilator as per the Scheme. Answering a wrong question Paper may lead to cancellation of Examination of that paper.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'2. The Hall Ticket must be presented for entry into the examination hall along with at least photo identification card issued by government.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'3. Company reserves the right to cancel the admission of the candidates at any stage, when it is detected that his / her admission to the examination or the company is against the rules.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'4. Candidates are required to bring their Hall Ticket compulsory. ', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'5. Candidates should occupy their seats at least 15 minutes before the commencement of the examination.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'6. Candidate should not write anything except his / her hall ticket number on Question Paper.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'7. Candidates are prohibited from bringing and using printed / written material of any kind into the Exam Hall. If found booked under Malpractice.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'8. Candidates are prohibited from bringing Mathematical Tables, however, if required will be supplied by the Chief Superintendent. Students of Mathematics, Science and Engineering are allowed to bring their own non programmable calculator. If violated, booked under Malpractice.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'9. No electronic gadgets / Mobiles are permitted in the exam Hall. If found booked under malpractice.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'10 .Candidates if found in copying / communicating with others or indulging in any malpractice will be expelled from the examination Hall and will not be allowed to appear for the remaining papers / subjects and will be booked under Malpractice.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'11 .Candidates are requested to cooperate to have a safe, healthy environment for the examinations', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell($pdf->getPageWidth(),0,'12 .Candidates are required to bring their payment transactions slip compulsory.', align:'L');
 ob_end_clean();
-$filename = 'HallTicket_' . $data['application_id'] . '.pdf';
-$pdf->Output($filename, 'D');
-exit;
+// Output the PDF to the browser
+$pdf->Output('example_001.pdf', 'I');
+?>
