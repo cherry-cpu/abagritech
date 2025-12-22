@@ -309,6 +309,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Log error (don't expose database errors to users)
         error_log('Database error: ' . $e->getMessage());
     }
+
+    try {
+    error_log('razopay  capture'.$transaction_id);
+        $amount    = 120000; // amount in paise
+        $keyId     = "rzp_live_RrvL9p6OF2hGP1";
+        $keySecret = "OK5bMD066Z4PCeLdc4YxoW8U";
+
+        if (empty($paymentId) || empty($amount)) {
+            throw new Exception("Payment ID or amount missing");
+        }
+
+        $url = "https://api.razorpay.com/v1/payments/$transaction_id/capture";
+
+        $payload = json_encode([
+            "amount" => $amount
+            "currency"=> "INR",
+        ]);
+
+        $ch = curl_init($url);
+
+        curl_setopt_array($ch, [
+            CURLOPT_USERPWD        => $keyId . ":" . $keySecret,
+            CURLOPT_POST           => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER     => [
+                "Content-Type: application/json"
+            ],
+            CURLOPT_POSTFIELDS     => $payload,
+            CURLOPT_TIMEOUT        => 90
+        ]);
+
+        $response = curl_exec($ch);
+
+        if ($response === false) {
+            throw new Exception("cURL Error: " . curl_error($ch));
+        }
+
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        $result = json_decode($response, true);
+
+        if ($httpCode !== 200) {
+            $errorMsg = $result['error']['description'] ?? 'Unknown error';
+            throw new Exception("Razorpay Error ($httpCode): $errorMsg");
+        }
+
+        // ✅ Success
+        echo json_encode([
+            "status"  => "success",
+            "message" => "Payment captured successfully",
+            "data"    => $result
+        ]);
+
+    } catch (Exception $e) {
+
+        http_response_code(500);
+
+        echo json_encode([
+            "status"  => "error",
+            "message" => $e->getMessage()
+        ]);
+    }
     
 } else {
     http_response_code(400);
