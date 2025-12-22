@@ -208,6 +208,8 @@ $pdf->ln(2.5);
 $pdf->MultiCell(0,0,'11 .Candidates are requested to cooperate to have a safe, healthy environment for the examinations', align:'L');
 $pdf->ln(2.5);
 $pdf->MultiCell(0,0,'12 .Candidates are required to bring their payment transactions slip compulsory.', align:'L');
+$pdf->ln(2.5);
+$pdf->MultiCell(0,0,'13 .In the absence of the candidate’s photograph and signature on the hall ticket, the signature of a Gazetted Officer is required', align:'L');
 ob_end_clean();
 // Output the PDF to the browser
 $filename = 'HallTicket_' . $application_id . '.pdf';
