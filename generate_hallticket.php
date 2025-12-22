@@ -45,11 +45,16 @@ SELECT
     e.exam_center,
     e.transaction_id,
     e.photo_path,
-    e.signature_path
+    e.signature_path,
+    c.address,
+    c.exam_date
 FROM exam_applications e
-WHERE e.application_id=:application_id
-LIMIT 1
-";
+LEFT JOIN exam_centers c
+  ON TRIM(e.exam_center) = TRIM(c.district_name)
+ AND TRIM(e.position) = TRIM(c.position)
+ AND c.center_active = 1
+WHERE e.application_id = :application_id and e.id>=start_id AND e.id<=end_id and c.address IS NOT NULL and status='completed'
+ LIMIT 1";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':application_id', $application_id);
@@ -73,7 +78,8 @@ $mail=$data['email'];
 $aadhar_no=$data['aadhar'];
 $position=$data['position'];
 $exam_center=$data['exam_center'];
-$transaction_id=$data['transaction_id'];
+$exam_center_address=$data['address'];
+$exam_date=$data['exam_date'];
 //$submitted_on=$data['submitted_on'];
 
 /*$sql = "
@@ -85,16 +91,15 @@ $stmt->bindParam(':district', $data['exam_center']);
 $stmt->execute();
 $exam_center_data = $stmt->fetch();
  */
-$exam_center_address="exam_address";
 
 // Create new PDF document
 $pdf = new TCPDF();
 
 // Set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Your Name');
-$pdf->SetTitle('My First PDF');
-$pdf->SetSubject('TCPDF Tutorial');
+$pdf->SetAuthor('Abagritech');
+$pdf->SetTitle('Exam HallTicket');
+$pdf->SetSubject('Exam HallTicket');
 
 
 // Add a page
@@ -103,7 +108,7 @@ $pdf->AddPage();
 $pdf->SetFont('dejavusans', '', 12);
 // title
 // $pdf->ln(10);
-$pdf->Image('LOGO.PNG',(($pdf->getPageWidth()-50)/2),10,50,0, 'PNG', '','RTLM');
+$pdf->Image('Logo.PNG',(($pdf->getPageWidth()-50)/2),10,50,0, 'PNG', '','RTLM');
 $pdf->ln(20);
 $pdf->WriteHTML('<h1>Hall Ticket</h1>', align:'C');
 $pdf->ln(10);
@@ -123,17 +128,14 @@ $html = '<html>
     <tr>
     </tr>
     <tr>
-        <td class="side_variable">Application Id</td>
-        <td colspan="3">'.$application_id.'</td>
-    </tr>
+           <td colspan="1" class="side_variable">Hall Ticket No</td>
+           <td colspan="4">'.$application_id.'</td>
+       </tr>
         <tr>
         <td class="side_variable">Full Name</td>
         <td colspan="3">'.$full_name.'</td>
     </tr>
-    <tr>
-        <td colspan="1" class="side_variable">Hall Ticket No</td>
-        <td colspan="4">'.$hallticket.'</td>
-    </tr>
+
     <tr>
         <td colspan="1" class="side_variable">Date of Birth</td>
         <td colspan="1">'.$date_of_birth.'</td>
@@ -160,10 +162,10 @@ $html = '<html>
     <tr>
         <td class="side_variable">Exam For</td>
         <td colspan="1">'.$position.'</td>
-        <td class="side_variable">Exam Center</td>
-        <td colspan="2">'.$exam_center.'</td>
+        <td class="side_variable">Exam Date</td>
+        <td colspan="1">'.$exam_date.'</td>
     </tr>
-    <tr>
+  <tr>
         <td class="side_variable">Exam Center Address</td>
         <td colspan="4">'.$exam_center_address.'</td>
     </tr>
@@ -178,7 +180,7 @@ $pdf->writeHTML($html);
 
 $pdf->AddPage();
 $pdf->ln(15);
-$pdf->WriteHTML('<h3 style="font-weight:150;">Hall ticket should be preserved till the end of the examinations</h3>', align:'C');
+$pdf->WriteHTML('<h3 style="font-weight:150; ">Hall ticket should be preserved till the end of the examinations</h3>', align:'C');
 $pdf->WriteHTML('<h1>INSTRUCTIONS TO THE CANDIDATES</h1>', align:'C');
 $pdf->ln(5);
 
@@ -208,5 +210,6 @@ $pdf->ln(2.5);
 $pdf->MultiCell($pdf->getPageWidth(),0,'12 .Candidates are required to bring their payment transactions slip compulsory.', align:'L');
 ob_end_clean();
 // Output the PDF to the browser
-$pdf->Output('example_001.pdf', 'I');
+$filename = 'HallTicket_' . $application_id . '.pdf';
+$pdf->Output($filename, 'I');
 ?>

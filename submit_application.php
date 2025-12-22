@@ -261,7 +261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             :degree_year, :degree_percentage,
             :position, :exam_center, :transaction_id,
             :photo_path, :signature_path, :pdf_path,
-            NOW(), 'pending'
+            NOW(), 'Completed'
         )";
         
         $stmt = $pdo->prepare($sql);
