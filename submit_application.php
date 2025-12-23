@@ -323,7 +323,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $url = "https://api.razorpay.com/v1/payments/$transaction_id/capture";
 
         $payload = json_encode([
-            "amount" => $amount
+            "amount" => $amount,
             "currency"=> "INR",
         ]);
 
