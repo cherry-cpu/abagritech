@@ -309,11 +309,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Log error (don't expose database errors to users)
         error_log('Database error: ' . $e->getMessage());
     }
-
+/*
     try {
     error_log('razopay  capture'.$transaction_id);
         $amount    = 120000; // amount in paise
-        $keyId     = "rzp_live_RrvL9p6OF2hGP1";
+        $keyId     = "rzp_test_RpwfYVsuUzWVMU"; // "rzp_live_RrvL9p6OF2hGP1";
         $keySecret = "OK5bMD066Z4PCeLdc4YxoW8U";
 
         if (empty($paymentId) || empty($amount)) {
@@ -372,7 +372,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             "message" => $e->getMessage()
         ]);
     }
-    
+*/    
 } else {
     http_response_code(400);
     echo json_encode([
