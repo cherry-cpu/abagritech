@@ -57,7 +57,6 @@ $recent_applications = $pdo->query("
     SELECT *
     FROM exam_applications
     ORDER BY created_at DESC
-    LIMIT 50
 ")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 

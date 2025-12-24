@@ -35,7 +35,7 @@ if (empty($application_id)) {
 /* ===============================
    VERIFY APPLICATION EXISTS
    =============================== */
-$sql = "SELECT application_id FROM exam_applications WHERE application_id = :application_id LIMIT 1";
+$sql = "SELECT application_id FROM exam_applications WHERE application_id =:application_id or phone=:application_id LIMIT 1";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':application_id', $application_id);
 $stmt->execute();
