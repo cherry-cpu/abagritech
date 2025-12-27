@@ -53,9 +53,10 @@ SELECT
     e.exam_center,
     e.transaction_id,
     e.photo_path,
-    e.signature_path
+    e.signature_path,
+    e.status
 FROM exam_applications e
-WHERE e.transaction_id = :transaction_id or e.application_id=:transaction_id
+WHERE e.transaction_id = :transaction_id or e.application_id=:transaction_id or e.phone=:transaction_id
 LIMIT 1
 ";
 
@@ -90,8 +91,7 @@ $degree_percentage=$data['degree_percentage'];
 $position=$data['position'];
 $exam_center=$data['exam_center'];
 $application_id=$data['application_id'];
-$transaction_id=$data['transaction_id'];
-//$submitted_on=$data['submitted_on'];
+$status=$data['status'];
 
 // Create new PDF document
 $pdf = new TCPDF();
@@ -128,7 +128,9 @@ $html = '<html>
         <td colspan="1" class="side_variable">Date of Birth</td>
         <td colspan="1">'.$dat_of_birth.'</td>
         <td colspan="1" class="side_variable">Transaction Id</td>
-        <td colspan="2">'.$transaction_id.'</td>
+        <td colspan="1">'.$transaction_id.'</td>
+        <td colspan="1" class="side_variable">Status</td>
+        <td colspan="1">'.$status.'</td>
     </tr>
         <tr>
         <td class="side_variable">Gender</td>

@@ -35,7 +35,7 @@ try {
    VERIFY TRANSACTION ID
    =============================== */
 $stmt = $pdo->prepare(
-    "SELECT transaction_id FROM exam_applications WHERE transaction_id = :tid or application_id=:tid LIMIT 1"
+    "SELECT transaction_id FROM exam_applications WHERE transaction_id = :tid or application_id=:tid or phone=:tid LIMIT 1"
 );
 $stmt->execute([':tid' => $transaction_id]);
 
