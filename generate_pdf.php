@@ -110,8 +110,8 @@ $html = '<html>
     <tr>
         <th colspan="4" class="heading"><h2>Personal Details</h2></th>
         <th rowspan="4">
-            <img src=".'.$photo_path.'" alt="photo" height="90" width="90">
-            <img src=".'.$signature_path.'" alt="photo" height="45"  width="90">
+            <img src="/'.$photo_path.'" alt="photo" height="90" width="90">
+            <img src="/'.$signature_path.'" alt="photo" height="45"  width="90">
         </th>
     </tr>
     <tr>
