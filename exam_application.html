@@ -54,20 +54,21 @@
                     
                     <div class="form-group">
                         <label for="full_name">Full Name (as per SSC) *</label>
-                        <input type="text" id="full_name" name="full_name" required>
+                        <input type="text" id="full_name" value="full_name" name="full_name" required>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="date_of_birth">Date of Birth (as per SSC) *</label>
-                            <input type="date" id="date_of_birth" name="date_of_birth" required>
+                            <input type="date" id="date_of_birth" value='2006-01-01' name="date_of_birth" required>
+
                         </div>
 
                         <div class="form-group">
                             <label for="gender">Gender *</label>
                             <select id="gender" name="gender" required>
                                 <option value="">-- Select --</option>
-                                <option value="Male">Male</option>
+                                <option value="Male" selected>Male</option>
                                 <option value="Female">Female</option>
                                 <option value="Other">Other</option>
                             </select>
@@ -77,37 +78,37 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="email">Email Id *</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="email" value="'test@gmail.com" id="email" name="email" required>
                         </div>
 
                         <div class="form-group">
                             <label for="phone">Phone No *</label>
-                            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" required>
+                            <input type="tel" value="1234567890" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Enter 10-digit phone number" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="father_name">Father Name</label>
-                            <input type="text" id="father_name" name="father_name">
+                            <input type="text" value="father_name" id="father_name" name="father_name">
                         </div>
 
                         <div class="form-group">
                             <label for="aadhar">Aadhar No</label>
-                            <input type="text" id="aadhar" name="aadhar" pattern="[0-9]{12}" placeholder="Enter 12-digit Aadhar number">
+                            <input type="text" id="aadhar" value="123456789012" name="aadhar" pattern="[0-9]{12}" placeholder="Enter 12-digit Aadhar number">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="caste">Caste</label>
-                            <input type="text" id="caste" name="caste">
+                            <input type="text" id="caste" name="caste" value="'asd">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <textarea id="address" name="address" rows="3"></textarea>
+                        <textarea id="address" name="address" rows="3" value="addr"></textarea>
                     </div>
 
                     <h3 class="form-section-title">Educational Qualifications</h3>
@@ -115,36 +116,36 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="ssc_year">SSC passed out Year</label>
-                            <input type="number" id="ssc_year" name="ssc_year" min="1980" max="2025">
+                            <input type="number" id="ssc_year" name="ssc_year" value="1980" min="1980" max="2025">
                         </div>
 
                         <div class="form-group">
                             <label for="ssc_percentage">SSC Percentage/CGPA</label>
-                            <input type="text" id="ssc_percentage" name="ssc_percentage" placeholder="e.g., 85 or 8.5">
+                            <input value="1980" type="text" id="ssc_percentage" name="ssc_percentage" placeholder="e.g., 85 or 8.5">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="inter_year">Intermediate passed out Year</label>
-                            <input type="number" id="inter_year" name="inter_year" min="1980" max="2025">
+                            <input type="number" value="1980" id="inter_year" name="inter_year" min="1980" max="2025">
                         </div>
 
                         <div class="form-group">
                             <label for="inter_percentage">Intermediate Percentage/CGPA</label>
-                            <input type="text" id="inter_percentage" name="inter_percentage" placeholder="e.g., 85 or 8.5">
+                            <input type="text" value="1980" id="inter_percentage" name="inter_percentage" placeholder="e.g., 85 or 8.5">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="degree_year">Degree passed out Year</label>
-                            <input type="number" id="degree_year" name="degree_year" min="1980" max="2025">
+                            <input type="number" value="1980" id="degree_year" name="degree_year" min="1980" max="2025">
                         </div>
 
                         <div class="form-group">
                             <label for="degree_percentage">Degree Percentage/CGPA</label>
-                            <input type="text" id="degree_percentage" name="degree_percentage" placeholder="e.g., 85 or 8.5">
+                            <input type="text" id="degree_percentage" value="1980" name="degree_percentage" placeholder="e.g., 85 or 8.5">
                         </div>
                     </div>
 
@@ -155,7 +156,7 @@
                             <label for="position">Applying for *</label>
                             <select id="position" name="position" required>
                                 <option value="">-- Select --</option>
-                                <option value="MAFO">Mandal Agriculture Field Officer</option>
+                                <option value="MAFO" selected>Mandal Agriculture Field Officer</option>
                                 <option value="DAFO">Divisional Agriculture Field Officer</option>
                                 <option value="RAFO">Regional Agriculture Field Officer</option>
                                 <option value="ZAFO">Zonal Agriculture Field Officer</option>
@@ -166,7 +167,7 @@
                             <label for="exam_center">Preferred Exam Center *</label>
                             <select id="exam_center" name="exam_center" required>
                                 <option value="">-- Select --</option>
-                                <option value="Adilabad">Adilabad</option>
+                                <option value="Adilabad" selected>Adilabad</option>
                                 <option value="Alluri Sitharama Raju">Alluri Sitharama Raju</option>
                                 <option value="Anakapalli">Anakapalli</option>
                                 <option value="Anantapur">Anantapur</option>
@@ -214,13 +215,13 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="photo">Upload Photo *</label>
-                            <input type="file" id="photo" name="photo" accept="image/jpeg,image/jpg,image/png" required>
+                            <input type="file" id="photo" name="photo" accept="image/jpeg,image/jpg,image/png">
                             <small class="file-hint">Max size 1 MB, jpg/png only</small>
                         </div>
 
                         <div class="form-group">
                             <label for="signature">Upload Signature *</label>
-                            <input type="file" id="signature" name="signature" accept="image/jpeg,image/jpg,image/png" required>
+                            <input type="file" id="signature" name="signature" accept="image/jpeg,image/jpg,image/png">
                             <small class="file-hint">Max size 1 MB, jpg/png only</small>
                         </div>
                     </div>
@@ -329,7 +330,7 @@
     <script>
         // Razorpay Configuration
         // NOTE: Replace these with your actual Razorpay keys
-        const RAZORPAY_KEY_ID = 'rzp_live_RrvL9p6OF2hGP1' //'rzp_test_RpwfYVsuUzWVMU'; // Replace with your Razorpay Key ID
+        const RAZORPAY_KEY_ID = 'rzp_test_RpwfYVsuUzWVMU' // 'rzp_live_RrvL9p6OF2hGP1' //'rzp_test_RpwfYVsuUzWVMU'; // Replace with your Razorpay Key ID
         const EXAM_FEE = 1200; // Amount in rupees
 
         let paymentCompleted = false;
@@ -369,9 +370,9 @@
                 alert('Please enter a valid 10-digit phone number.');
                 return;
             }
-
             // Create order and initiate payment
             initiatePayment();
+
         });
 
         function initiatePayment() {
@@ -399,6 +400,7 @@
                     
                     // Show success message
                     alert('Payment successful! Transaction ID: ' + response.razorpay_payment_id);
+
                 },
                 prefill: {
                     name: document.getElementById('full_name').value,
@@ -455,7 +457,36 @@
 
             // Create FormData object
             const formData = new FormData(this);
+            fetch('preTransactionData.php', {
+                        mode: 'cors',
+                        credentials: 'omit',
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // console.log('Pre-Transaction Saved:', data.pre_transaction_id);
 
+                            // Store pre_transaction_id for final submit
+                            localStorage.setItem(
+                                'pre_transaction_id',
+                                data.pre_transaction_id
+                            );
+
+                            // 👉 Redirect to payment page OR open payment gateway
+                            // window.location.href = 'payment.html';
+
+                            alert('Transaction initiated. Proceed to payment.');
+                        } else {
+                            alert(data.message || 'Failed to initiate transaction');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch Error:', error);
+                        alert('Something went wrong. Please try again.');
+                    });
+            
             // Submit form data to PHP backend
             fetch('submit_application.php', {
                 method: 'POST',

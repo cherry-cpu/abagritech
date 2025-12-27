@@ -25,7 +25,7 @@ try {
     exit('Invalid request');
 }
 */
-$id = trim($_GET['id']);
+$application_id = trim($_GET['id']);
 
 /* ===============================
    FETCH APPLICATION DATA
@@ -53,11 +53,11 @@ LEFT JOIN exam_centers c
   ON TRIM(e.exam_center) = TRIM(c.district_name)
  AND TRIM(e.position) = TRIM(c.position)
  AND c.center_active = 1
-WHERE (e.application_id =:id or phone=:id) and e.id>=start_id AND e.id<=end_id and c.address IS NOT NULL and status='completed'
+WHERE e.application_id = :application_id and c.address IS NOT NULL and status='completed'
  LIMIT 1";
 
 $stmt = $pdo->prepare($sql);
-$stmt->bindParam(':id', $id);
+$stmt->bindParam(':application_id', $application_id);
 $stmt->execute();
 $data = $stmt->fetch();
 
@@ -66,7 +66,6 @@ if (!$data) {
     exit('Application not found');
 }
 
-$application_id=$data['application_id'];
 $photo_path=$data['photo_path'];
 $signature_path=$data['signature_path'];
 $transaction_id=$data['transaction_id'];
@@ -122,8 +121,8 @@ $html = '<html>
     <tr>
         <th colspan="4" class="heading"><h2>Personal details</h2></th>
         <th rowspan="4">
-            <img src="'.$photo_path.'" alt="photo" height="90" width="90">
-            <img src="'.$signature_path.'" alt="photo" height="45"  width="90">
+            <img src="/'.$photo_path.'" alt="photo" height="90" width="90">
+            <img src="/'.$signature_path.'" alt="photo" height="45"  width="90">
         </th>
     </tr>
     <tr>
