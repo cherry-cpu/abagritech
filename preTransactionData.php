@@ -28,11 +28,8 @@ try {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     http_response_code(500);
-    echo json_encode([
-        'success' => false,
-        'message' => 'Database connection failed'
-    ]);
-    error_log('DB Error: ' . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+    error_log($e->getMessage());
     exit;
 }
 
@@ -42,17 +39,17 @@ try {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // -----------------------
-    // GET FORM DATA
+    // FORM DATA
     // -----------------------
-    $full_name         = $_POST['full_name'] ?? '';
-    $date_of_birth     = $_POST['date_of_birth'] ?? '';
-    $gender            = $_POST['gender'] ?? '';
-    $email             = $_POST['email'] ?? '';
-    $phone             = $_POST['phone'] ?? '';
-    $father_name       = $_POST['father_name'] ?? '';
-    $aadhar            = $_POST['aadhar'] ?? '';
-    $caste             = $_POST['caste'] ?? '';
-    $address           = $_POST['address'] ?? '';
+    $full_name     = $_POST['full_name'] ?? '';
+    $date_of_birth = $_POST['date_of_birth'] ?? '';
+    $gender        = $_POST['gender'] ?? '';
+    $email         = $_POST['email'] ?? '';
+    $phone         = $_POST['phone'] ?? '';
+    $father_name   = $_POST['father_name'] ?? '';
+    $aadhar        = $_POST['aadhar'] ?? '';
+    $caste         = $_POST['caste'] ?? '';
+    $address       = $_POST['address'] ?? '';
 
     $ssc_year          = $_POST['ssc_year'] ?? null;
     $ssc_percentage    = $_POST['ssc_percentage'] ?? null;
@@ -61,127 +58,104 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $degree_year       = $_POST['degree_year'] ?? null;
     $degree_percentage = $_POST['degree_percentage'] ?? null;
 
-    $position          = $_POST['position'] ?? '';
-    $exam_center       = $_POST['exam_center'] ?? '';
-
-    // NEW FIELDS (NOW ACCEPTED)
-    $transaction_id    = $_POST['transaction_id'] ?? null;
-    $photo_path        = $_POST['photo_path'] ?? null;
-    $signature_path    = $_POST['signature_path'] ?? null;
+    $position       = $_POST['position'] ?? '';
+    $exam_center    = $_POST['exam_center'] ?? '';
+    $transaction_id = $_POST['transaction_id'] ?? null;
 
     // -----------------------
     // BASIC VALIDATION
     // -----------------------
     if (empty($full_name) || empty($date_of_birth) || empty($phone) || empty($position)) {
         http_response_code(400);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Required fields missing'
-        ]);
+        echo json_encode(['success' => false, 'message' => 'Required fields missing']);
         exit;
     }
 
     // -----------------------
-    // CALCULATE AGE
+    // AGE CALCULATION
     // -----------------------
     try {
         $dob = new DateTime($date_of_birth);
-        $today = new DateTime();
-        $age = $today->diff($dob)->y;
+        $age = (new DateTime())->diff($dob)->y;
     } catch (Exception $e) {
         http_response_code(400);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Invalid date of birth'
-        ]);
+        echo json_encode(['success' => false, 'message' => 'Invalid DOB']);
         exit;
     }
 
     // -----------------------
-    // GENERATE APPLICATION ID
+    // UPLOAD DIR SETUP
+    // -----------------------
+    $baseDir = __DIR__ . '/' . trim(UPLOAD_DIR, '/');
+    $photoDir = $baseDir . '/photos/';
+    $signDir  = $baseDir . '/signature/';
+
+    if (!is_dir($photoDir)) mkdir($photoDir, 0777, true);
+    if (!is_dir($signDir)) mkdir($signDir, 0777, true);
+
+    $photo_path = null;
+    $signature_path = null;
+
+    // -----------------------
+    // PHOTO UPLOAD
+    // -----------------------
+    if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === 0) {
+        $ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+        if (in_array($ext, ALLOWED_IMAGE_TYPES) && $_FILES['photo']['size'] <= MAX_FILE_SIZE) {
+            $photoName = time() . '_photo.' . $ext;
+            if (move_uploaded_file($_FILES['photo']['tmp_name'], $photoDir . $photoName)) {
+                $photo_path = UPLOAD_DIR . 'photos/' . $photoName;
+            }
+        }
+    }
+
+    // -----------------------
+    // SIGNATURE UPLOAD
+    // -----------------------
+    if (!empty($_FILES['signature']['name']) && $_FILES['signature']['error'] === 0) {
+        $ext = strtolower(pathinfo($_FILES['signature']['name'], PATHINFO_EXTENSION));
+        if (in_array($ext, ALLOWED_IMAGE_TYPES) && $_FILES['signature']['size'] <= MAX_FILE_SIZE) {
+            $signName = time() . '_signature.' . $ext;
+            if (move_uploaded_file($_FILES['signature']['tmp_name'], $signDir . $signName)) {
+                $signature_path = UPLOAD_DIR . 'signature/' . $signName;
+            }
+        }
+    }
+
+    // -----------------------
+    // APPLICATION ID
     // -----------------------
     $application_id = strtoupper($position) . '-PRE-' . date('YmdHis') . '-' . rand(1000, 9999);
 
     // -----------------------
-    // INSERT INTO DATABASE
+    // INSERT DB
     // -----------------------
     try {
         $sql = "INSERT INTO pre_transaction_data (
-            application_id,
-            full_name,
-            date_of_birth,
-            age,
-            gender,
-            email,
-            phone,
-            father_name,
-            aadhar,
-            caste,
-            address,
-            ssc_year,
-            ssc_percentage,
-            inter_year,
-            inter_percentage,
-            degree_year,
-            degree_percentage,
-            position,
-            exam_center,
-            transaction_id,
-            photo_path,
-            signature_path,
-            created_at
+            application_id, full_name, date_of_birth, age, gender, email, phone,
+            father_name, aadhar, caste, address,
+            ssc_year, ssc_percentage, inter_year, inter_percentage,
+            degree_year, degree_percentage,
+            position, exam_center, transaction_id,
+            photo_path, signature_path, created_at
         ) VALUES (
-            :application_id,
-            :full_name,
-            :date_of_birth,
-            :age,
-            :gender,
-            :email,
-            :phone,
-            :father_name,
-            :aadhar,
-            :caste,
-            :address,
-            :ssc_year,
-            :ssc_percentage,
-            :inter_year,
-            :inter_percentage,
-            :degree_year,
-            :degree_percentage,
-            :position,
-            :exam_center,
-            :transaction_id,
-            :photo_path,
-            :signature_path,
-            NOW()
+            :application_id, :full_name, :date_of_birth, :age, :gender, :email, :phone,
+            :father_name, :aadhar, :caste, :address,
+            :ssc_year, :ssc_percentage, :inter_year, :inter_percentage,
+            :degree_year, :degree_percentage,
+            :position, :exam_center, :transaction_id,
+            :photo_path, :signature_path, NOW()
         )";
 
         $stmt = $pdo->prepare($sql);
-
-        $stmt->bindParam(':application_id', $application_id);
-        $stmt->bindParam(':full_name', $full_name);
-        $stmt->bindParam(':date_of_birth', $date_of_birth);
-        $stmt->bindParam(':age', $age);
-        $stmt->bindParam(':gender', $gender);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':phone', $phone);
-        $stmt->bindParam(':father_name', $father_name);
-        $stmt->bindParam(':aadhar', $aadhar);
-        $stmt->bindParam(':caste', $caste);
-        $stmt->bindParam(':address', $address);
-        $stmt->bindParam(':ssc_year', $ssc_year);
-        $stmt->bindParam(':ssc_percentage', $ssc_percentage);
-        $stmt->bindParam(':inter_year', $inter_year);
-        $stmt->bindParam(':inter_percentage', $inter_percentage);
-        $stmt->bindParam(':degree_year', $degree_year);
-        $stmt->bindParam(':degree_percentage', $degree_percentage);
-        $stmt->bindParam(':position', $position);
-        $stmt->bindParam(':exam_center', $exam_center);
-        $stmt->bindParam(':transaction_id', $transaction_id);
-        $stmt->bindParam(':photo_path', $photo_path);
-        $stmt->bindParam(':signature_path', $signature_path);
-
-        $stmt->execute();
+        $stmt->execute(compact(
+            'application_id','full_name','date_of_birth','age','gender','email','phone',
+            'father_name','aadhar','caste','address',
+            'ssc_year','ssc_percentage','inter_year','inter_percentage',
+            'degree_year','degree_percentage',
+            'position','exam_center','transaction_id',
+            'photo_path','signature_path'
+        ));
 
         echo json_encode([
             'success' => true,
@@ -191,18 +165,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     } catch (PDOException $e) {
         http_response_code(500);
-        echo json_encode([
-            'success' => false,
-            'message' => 'Failed to save pre-transaction data'
-        ]);
-        error_log('Insert Error: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => 'DB insert failed']);
+        error_log($e->getMessage());
     }
 
 } else {
     http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'message' => 'Invalid request method'
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
 }
-?>
