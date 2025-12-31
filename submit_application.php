@@ -34,7 +34,7 @@ try {
 error_log('aa==='.$_SERVER["REQUEST_METHOD"]);
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+    error_log("post methods ".$[$_POST]);
     // Get form data
     $full_name = $_POST['full_name'] ?? '';
     $date_of_birth = $_POST['date_of_birth'] ?? '';
@@ -63,6 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $photo_path = '';
     $signature_path = '';
     $upload_errors = [];
+    
+    error_log("submit_application.php entry data : full_name ".$full_name."date_of_birth ".$date_of_birth."gender ".$gender."email ".$email."phone ".$phone."father_name ".$father_name."aadhar ".$aadhar."caste ".$caste."address ".$address." ssc_year ".$ssc_year."ssc_percentage ".$ssc_percentage."inter_year ".$inter_year."inter_percentage ".$inter_percentage."degree_year ".$degree_year."degree_percentage ".$degree_percentage."position ".$position."exam_center ".$exam_center."transaction_id ".$transaction_id);
     
     // Create upload directory if it doesn't exist
     // Normalize UPLOAD_DIR path (replace forward slashes with directory separator)
@@ -246,6 +248,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Insert into database
     try {
+        error_log("log before inserting db : ".$application_id.", ".$full_name.", ".$date_of_birth.", ".$age.", ".$gender.", ".$email.", ".$phone.",".$father_name.", ".$aadhar.", ".$caste.", ".$address.",".$ssc_year.", ".$ssc_percentage.", ".$inter_year.", ".$inter_percentage.",".$degree_year.", ".$degree_percentage.",".$position.", ".$exam_center.", ".$transaction_id.",".$photo_path.", ".$signature_path.", ".$pdf_path.",NOW(), 'Completed'")
         $sql = "INSERT INTO exam_applications (
             application_id, full_name, date_of_birth, age, gender, email, phone, 
             father_name, aadhar, caste, address,
