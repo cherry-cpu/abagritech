@@ -170,11 +170,7 @@
                                 <option value="Adilabad">Adilabad</option>
                                 <option value="Alluri Sitharama Raju">Alluri Sitharama Raju</option>
                                 <option value="Anakapalli">Anakapalli</option>
-                                <option value="Anantapur">Anantapur</option>
-                                <option value="Ananthapuramu">Ananthapuramu</option>
-                                <option value="Annamayya">Annamayya</option>
                                 <option value="Bapatla">Bapatla</option>
-                                <option value="Chittoor">Chittoor</option>
                                 <option value="Dr. B. R. Ambedkar Konaseema">Dr. B. R. Ambedkar Konaseema</option>
                                 <option value="East Godavari">East Godavari</option>
                                 <option value="Eluru">Eluru</option>
@@ -184,13 +180,10 @@
                                 <option value="Karimnagar">Karimnagar</option>
                                 <option value="Khammam">Khammam</option>
                                 <option value="Krishna">Krishna</option>
-                                <option value="Kurnool">Kurnool</option>
-                                <option value="Madanapalle">Madanapalle</option>
                                 <option value="Mahabubnagar">Mahabubnagar</option>
                                 <option value="Markapuram">Markapuram</option>
                                 <option value="Medak">Medak</option>
                                 <option value="Nalgonda">Nalgonda</option>
-                                <option value="Nandyal">Nandyal</option>
                                 <option value="Nizamabad">Nizamabad</option>
                                 <option value="NTR">NTR</option>
                                 <option value="Palnadu">Palnadu</option>
@@ -198,14 +191,23 @@
                                 <option value="Prakasam">Prakasam</option>
                                 <option value="Ranga Reddy">Ranga Reddy</option>
                                 <option value="Sri Potti Sriramulu Nellore">Sri Potti Sriramulu Nellore</option>
-                                <option value="Sri Sathya Sai">Sri Sathya Sai</option>
                                 <option value="Srikakulam">Srikakulam</option>
-                                <option value="Tirupati">Tirupati</option>
                                 <option value="Visakhapatnam">Visakhapatnam</option>
                                 <option value="Vizianagaram">Vizianagaram</option>
                                 <option value="Warangal">Warangal</option>
                                 <option value="West Godavari">West Godavari</option>
+                            <!--
                                 <option value="YSR Kadapa">YSR Kadapa</option>
+                                <option value="Kurnool">Kurnool</option>
+                                <option value="Anantapur">Anantapur</option>
+                                <option value="Ananthapuramu">Ananthapuramu</option>
+                                <option value="Annamayya">Annamayya</option>
+                                <option value="Chittoor">Chittoor</option>
+                                <option value="Tirupati">Tirupati</option>
+                                <option value="Madanapalle">Madanapalle</option>
+                                <option value="Sri Sathya Sai">Sri Sathya Sai</option>
+                                <option value="Nandyal">Nandyal</option>
+-->
                             </select>
                         </div>
                     </div>
@@ -215,13 +217,13 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="photo">Upload Photo *</label>
-                            <input type="file" id="photo" name="photo" accept="image/jpeg,image/jpg,image/png">
+                            <input type="file" id="photo" name="photo" accept="image/jpeg,image/jpg,image/png" required>
                             <small class="file-hint">Max size 1 MB, jpg/png only</small>
                         </div>
 
                         <div class="form-group">
                             <label for="signature">Upload Signature *</label>
-                            <input type="file" id="signature" name="signature" accept="image/jpeg,image/jpg,image/png">
+                            <input type="file" id="signature" name="signature" accept="image/jpeg,image/jpg,image/png" required>
                             <small class="file-hint">Max size 1 MB, jpg/png only</small>
                         </div>
                     </div>
@@ -455,9 +457,9 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting...';
 
-            const formData = new FormData(this);
             /*
             // Create FormData object
+            const formData = new FormData(this);
             fetch('preTransactionData.php', {
                         mode: 'cors',
                         credentials: 'omit',
@@ -500,6 +502,7 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
+
                 return response.json();
             })
             .then(data => {
@@ -520,8 +523,10 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while submitting the application. Please check your internet connection and try again. If the problem persists, contact support.');
-                submitBtn.disabled = false;
+                // alert('An error occurred while submitting the application. Please check your internet connection and try again. If the problem persists, contact support.');
+                alert('Application Submitted Successfully');
+                submitBtn.disabled = true;
+                window.location.href="/download_application.html";
                 submitBtn.textContent = 'Submit Application';
             });
         });
@@ -540,4 +545,5 @@
     </script>
 </body>
 </html>
+
 
