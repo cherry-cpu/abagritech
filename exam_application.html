@@ -455,9 +455,9 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting...';
 
+            const formData = new FormData(this);
             /*
             // Create FormData object
-            const formData = new FormData(this);
             fetch('preTransactionData.php', {
                         mode: 'cors',
                         credentials: 'omit',
