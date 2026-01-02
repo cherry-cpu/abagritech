@@ -34,7 +34,7 @@ try {
 error_log('aa==='.$_SERVER["REQUEST_METHOD"]);
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    error_log("post methods ".$[$_POST]);
+    error_log("post methods ".print_r($_POST));
     // Get form data
     $full_name = $_POST['full_name'] ?? '';
     $date_of_birth = $_POST['date_of_birth'] ?? '';
@@ -248,7 +248,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Insert into database
     try {
-        error_log("log before inserting db : ".$application_id.", ".$full_name.", ".$date_of_birth.", ".$age.", ".$gender.", ".$email.", ".$phone.",".$father_name.", ".$aadhar.", ".$caste.", ".$address.",".$ssc_year.", ".$ssc_percentage.", ".$inter_year.", ".$inter_percentage.",".$degree_year.", ".$degree_percentage.",".$position.", ".$exam_center.", ".$transaction_id.",".$photo_path.", ".$signature_path.", ".$pdf_path.",NOW(), 'Completed'")
+        error_log("log before inserting db : ".$application_id.", ".$full_name.", ".$date_of_birth.", ".$age.", ".$gender.", ".$email.", ".$phone.",".$father_name.", ".$aadhar.", ".$caste.", ".$address.",".$ssc_year.", ".$ssc_percentage.", ".$inter_year.", ".$inter_percentage.",".$degree_year.", ".$degree_percentage.",".$position.", ".$exam_center.", ".$transaction_id.",".$photo_path.", ".$signature_path.", ".$pdf_path.",NOW(), 'Completed'");
         $sql = "INSERT INTO exam_applications (
             application_id, full_name, date_of_birth, age, gender, email, phone, 
             father_name, aadhar, caste, address,
@@ -384,4 +384,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ]);
 }
 ?>
+
 
