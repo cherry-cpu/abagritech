@@ -37,7 +37,7 @@ if (empty($application_id)) {
    VERIFY APPLICATION EXISTS
    =============================== */
 $sql = "SELECT application_id FROM exam_applications WHERE (application_id =:application_id or phone=:application_id) and
-status='completed' and position=:position LIMIT 1";
+  position=:position LIMIT 1";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':application_id', $application_id);
 $stmt->bindParam(':position', $position);

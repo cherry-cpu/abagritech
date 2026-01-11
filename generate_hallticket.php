@@ -53,8 +53,7 @@ LEFT JOIN exam_centers c
   ON TRIM(e.exam_center) = TRIM(c.district_name)
  AND TRIM(e.position) = TRIM(c.position)
  AND c.center_active = 1
-WHERE (e.application_id =:id or phone=:id) and e.id>=start_id AND e.id<=end_id and c.address IS NOT NULL and status='completed'
- LIMIT 1";
+WHERE (e.application_id =:id or phone=:id) and e.id>=start_id AND e.id<=end_id and c.address IS NOT NULL LIMIT 1";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':id', $id);
