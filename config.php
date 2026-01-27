@@ -7,6 +7,12 @@ define('DB_NAME', 'dbmaster');
 define('DB_USER', 'dbmasteruser');
 define('DB_PASS', 'Bu:ws6j,sFpdH~%WF<0kHYc3)x2Z[<T<');
 define('DB_CHARSET', 'utf8mb4');
+// define('DB_HOST', 'localhost');
+// define('DB_NAME', 'dbmaster');
+// define('DB_USER', 'root');
+// define('DB_PASS', '1234');
+// define('DB_CHARSET', 'utf8mb4');
+
 
 // Upload directory configuration
 define('UPLOAD_DIR', 'uploads/');

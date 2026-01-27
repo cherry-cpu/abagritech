@@ -34,7 +34,7 @@ try {
 error_log('aa==='.$_SERVER["REQUEST_METHOD"]);
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    error_log("post methods ".print_r($_POST));
+//    error_log("post methods : ".print_r($_POST));
     // Get form data
     $full_name = $_POST['full_name'] ?? '';
     $date_of_birth = $_POST['date_of_birth'] ?? '';
@@ -294,14 +294,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':pdf_path', $pdf_path);
         
         $stmt->execute();
-        
         // Return success response
-        echo json_encode([
+        header('Content-Type: application/json');
+        $resp=array(
             'success' => true,
             'application_id' => $application_id,
-            'message' => 'Application submitted successfully!'
-        ]);
-        
+            'message' => 'Application asdasd submitted successfully!'
+        );
+        echo json_encode($resp, JSON_PRETTY_PRINT);
+        error_log("DB applicant Insertion successful.");
     } catch(PDOException $e) {
         // Return error response
         http_response_code(500);

@@ -7,11 +7,7 @@ if (!isset($_SESSION['examiner_logged_in'])) {
     exit;
 }
 
-define('DB_HOST', 'ls-09293e762cbb8c1e5c806444a82e3a4fe2f22b56.cfiikwus2tht.ap-south-1.rds.amazonaws.com');
-define('DB_NAME', 'dbmaster');
-define('DB_USER', 'dbmasteruser');
-define('DB_PASS', 'Bu:ws6j,sFpdH~%WF<0kHYc3)x2Z[<T<');
-define('DB_CHARSET', 'utf8mb4');
+require_once 'config.php';
 
 $app_id = trim($_POST['application_id'] ?? '');
 

@@ -12,6 +12,7 @@ if(!isset($_SESSION['examiner_logged_in'])){
 <title>Enter Marks</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="exam_marks_styles.css">
 </head>
 <body>
 
