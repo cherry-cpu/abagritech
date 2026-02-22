@@ -165,6 +165,18 @@ $html = '<html>
         <td colspan="2">'.$exam_status.'</td>
     </tr>
 </table>
+
+<br>
+<br>
+<h3>Note :</h3>
+<center>
+    <ol>
+        <li>The certificate verification dates for the selected candidates will be updated.</li>
+        <li>For certificate verification, candidates must bring all original certificates along with two sets of photocopies duly signed with a gestured signature.</li>
+    </ol>
+</center>
+
+</center>
 <style>
 .heading{font-weight:bold; background-color: #e9f4f5;}
 .side_variable{font-weight:200; ;background-color: #e8f5e9;}
@@ -178,5 +190,5 @@ $pdf->writeHTML($html);
    =============================== */
 ob_end_clean();
 // $pdf->Output('Application_Form_'.$transaction_id.'.pdf', 'D');
-$pdf->Output('Rsults_'.$application_id.'.pdf', 'D');
+$pdf->Output('Result_'.$application_id.'.pdf', 'D');
 exit;
