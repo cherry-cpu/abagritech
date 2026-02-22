@@ -172,7 +172,7 @@ $html = '<html>
 <center>
     <ol>
         <li>The certificate verification dates for the selected candidates will be updated.</li>
-        <li>For certificate verification, candidates must bring all original certificates along with two sets of photocopies duly signed with a gestured signature.</li>
+        <li>Candidates must bring all original certificates along with two sets of Xerox copies duly signed by a Gazetted Signature.</li>
     </ol>
 </center>
 
