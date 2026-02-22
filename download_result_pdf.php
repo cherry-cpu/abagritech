@@ -64,7 +64,6 @@ if (!$data) {
 
 $photo_path=$data['photo_path'];
 $signature_path=$data['signature_path'];
-$transaction_id=$data['transaction_id'];
 $dat_of_birth=$data['date_of_birth'];
 $full_name=$data['full_name'];
 $gender=$data['gender'];
@@ -179,5 +178,5 @@ $pdf->writeHTML($html);
    =============================== */
 ob_end_clean();
 // $pdf->Output('Application_Form_'.$transaction_id.'.pdf', 'D');
-$pdf->Output('Application_Form_'.$transaction_id.'.pdf', 'I');
+$pdf->Output('Rsults_'.$application_id.'.pdf', 'D');
 exit;
