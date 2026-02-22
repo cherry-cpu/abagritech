@@ -4,8 +4,7 @@ header('Content-Type: application/json');
 
 $username = trim($_POST['username'] ?? '');
 $password = trim($_POST['password'] ?? '');
-
-if ($username === 'asd' && $password === '123') {
+if ($username === 'marks_admin' && $password === 'ramamarks') {
     $_SESSION['examiner_logged_in'] = true;
     echo json_encode(['success'=>true]);
 } else {

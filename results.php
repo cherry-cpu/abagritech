@@ -3,6 +3,10 @@ require_once 'config.php';
 $data = null;
 
 if (isset($_POST['application_id'])) {
+    $application_id=$_POST['application_id'];
+    $string=$application_id;
+    $application_id = substr($string, 0, 4) . '-' .substr($string, 4, 8) . '-' .substr($string, 12);
+
     try {
         $pdo = new PDO(
             "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET,
@@ -12,7 +16,7 @@ if (isset($_POST['application_id'])) {
         );
 
         $st = $pdo->prepare("SELECT * FROM exam_marks WHERE application_id = ?");
-        $st->execute([$_POST['application_id']]);
+        $st->execute([$application_id]);
         $data = $st->fetch(PDO::FETCH_ASSOC);
     } catch (Exception $e) {
         $data = null;
@@ -253,7 +257,7 @@ if (isset($_POST['application_id'])) {
                 <div class="result-top">
                     <div>
                         <h4>Application ID</h4>
-                        <span><?= htmlspecialchars($_POST['application_id']) ?></span>
+                        <span><?= htmlspecialchars($application_id) ?></span>
                     </div>
 
                     <div class="result-status <?= strtolower($data['result']) ?>">
@@ -262,27 +266,14 @@ if (isset($_POST['application_id'])) {
                 </div>
 
                 <table class="marks-table">
-                    <tr>
-                        <th>Subject 1</th>
-                        <td><?= $data['subject1'] ?></td>
-                    </tr>
-                    <tr>
-                        <th>Subject 2</th>
-                        <td><?= $data['subject2'] ?></td>
-                    </tr>
-                    <tr>
-                        <th>Subject 3</th>
-                        <td><?= $data['subject3'] ?></td>
-                    </tr>
                     <tr class="total">
                         <th>Total Marks</th>
-                        <td><?= $data['total'] ?></td>
+                        <td><?= $data['subject1'] ?></td>
                     </tr>
                 </table>
-
                 <div class="result-actions">
-                    <a href="download_result_pdf.php?application_id=<?= urlencode($_POST['application_id']) ?>" class="btn-primary">
-                        <i class="fas fa-file-pdf"></i> Download PDF
+                    <a href="download_result_pdf.php?application_id=<?= urlencode($application_id) ?>" class="btn-primary">
+                    <i class="fas fa-file-pdf"></i> Download PDF
                     </a>
                 </div>
             </div>

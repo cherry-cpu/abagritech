@@ -23,14 +23,16 @@ try{
         [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]
     );
 
-    $stmt = $pdo->prepare("SELECT 1 FROM exam_applications WHERE application_id=?");
+    $stmt = $pdo->prepare("SELECT full_name FROM exam_applications WHERE application_id=?");
     $stmt->execute([$app_id]);
+    $app = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($stmt->fetch()) {
-        echo json_encode(['success'=>true]);
-    } else {
-        echo json_encode(['success'=>false,'message'=>'Application ID does not exist']);
-    }
+echo json_encode([
+    'success' => $app ? true : false,
+    'data' => $app,
+    'message' => $app ? '' : 'Application ID does not exist'
+]);
+
 
 }catch(Exception $e){
     echo json_encode(['success'=>false,'message'=>'Server error']);

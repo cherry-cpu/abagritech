@@ -25,13 +25,12 @@ if(!isset($_SESSION['examiner_logged_in'])){
 <form id="marksForm">
 
 <div class="row">
-    <input type="text" id="application_id" name="application_id" placeholder="Application ID" required>
+    <input type="text" id="application_id" name="application_id"  placeholder="MAFO-20261902-0001"
+    required>
     <button type="button" id="validateBtn">Validate</button>
 </div>
 
-<input type="number" name="s1" placeholder="Subject 1 Marks" disabled required>
-<input type="number" name="s2" placeholder="Subject 2 Marks" disabled required>
-<input type="number" name="s3" placeholder="Subject 3 Marks" disabled required>
+<input type="number" name="s1" placeholder="Organic" disabled required>
 
 <button id="submitBtn" disabled>Save Marks</button>
 
@@ -43,24 +42,27 @@ if(!isset($_SESSION['examiner_logged_in'])){
 const validateBtn=document.getElementById("validateBtn");
 const submitBtn=document.getElementById("submitBtn");
 const msg=document.getElementById("msg");
-const marks=document.querySelectorAll("input[name='s1'],input[name='s2'],input[name='s3']");
+const marks=document.querySelectorAll("input[name='s1']");
 
 validateBtn.onclick=()=>{
     msg.textContent="";
     marks.forEach(i=>i.disabled=true);
     submitBtn.disabled=true;
 
-    const id=document.getElementById("application_id").value.trim();
-    if(!id){ msg.textContent="Enter Application ID"; msg.className="msg error"; return; }
+    const value=document.getElementById("application_id").value.trim();
+    if(!value){ msg.textContent="Enter Application ID"; msg.className="msg error"; return; }
+
+    const formattedValue = `${value.slice(0,4)}-${value.slice(4,12)}-${value.slice(12,20)}`;
+
 
     fetch("validate_application.php",{
         method:"POST",
-        body:new URLSearchParams({application_id:id})
+        body:new URLSearchParams({application_id:formattedValue})
     })
     .then(r=>r.json())
     .then(d=>{
         if(d.success){
-            msg.textContent="Application ID Valid";
+            msg.textContent="Application ID Valid  = "+d.data.full_name;
             msg.className="msg success";
             marks.forEach(i=>i.disabled=false);
             submitBtn.disabled=false;
