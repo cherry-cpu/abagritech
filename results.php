@@ -2,26 +2,36 @@
 require_once 'config.php';
 $data = null;
 
+try {
+    $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+    ]);
+} catch (PDOException $e) {
+    exit('Database connection failed');
+}
+
 if (isset($_POST['application_id'])) {
     $application_id=$_POST['application_id'];
     $string=$application_id;
+    $string=str_replace("-", "", $string);
     $application_id = substr($string, 0, 4) . '-' .substr($string, 4, 8) . '-' .substr($string, 12);
-
-    try {
-        $pdo = new PDO(
-            "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET,
-            DB_USER,
-            DB_PASS,
-            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-        );
-
+/*
         $st = $pdo->prepare("SELECT * FROM exam_marks WHERE application_id = ?");
         $st->execute([$application_id]);
-        $data = $st->fetch(PDO::FETCH_ASSOC);
-    } catch (Exception $e) {
+        $data = $st->fetch(PDO::FETCH_ASSOC);*/
+        $sql="SELECT em.application_id, ea.full_name,em.subject1, em.result FROM exam_marks em, exam_applications ea WHERE em.application_id = :application_id and ea.application_id = :application_id";
+        $st = $pdo->prepare($sql);
+        $st->bindParam(':application_id', $application_id);
+        $st->execute();
+        $data = $st->fetch();
+}else{
         $data = null;
+        error_log(' except data '.$data);
+
     }
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -256,8 +266,12 @@ if (isset($_POST['application_id'])) {
             <div class="result-main-card">
                 <div class="result-top">
                     <div>
-                        <h4>Application ID</h4>
+                        <h4>Hall Ticket Number</h4>
                         <span><?= htmlspecialchars($application_id) ?></span>
+                    </div>
+                    <div>
+                        <h4>Full Name</h4>
+                        <span><?= $data['full_name'] ?></span>
                     </div>
 
                     <div class="result-status <?= strtolower($data['result']) ?>">

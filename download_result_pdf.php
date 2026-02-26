@@ -110,7 +110,7 @@ $html = '<html>
     <tr>
     </tr>
     <tr>
-        <td class="side_variable">Application Id</td>
+        <td class="side_variable">Hall Ticket Number</td>
         <td colspan="3">'.$application_id.'</td>
     </tr>
         <tr>
@@ -190,5 +190,5 @@ $pdf->writeHTML($html);
    =============================== */
 ob_end_clean();
 // $pdf->Output('Application_Form_'.$transaction_id.'.pdf', 'D');
-$pdf->Output('Result_'.$application_id.'.pdf', 'D');
+$pdf->Output('Result_'.$application_id.'.pdf', 'I');
 exit;
