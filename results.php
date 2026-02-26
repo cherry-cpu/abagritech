@@ -242,10 +242,10 @@ if (isset($_POST['application_id'])) {
 
         <div class="result-search-card">
             <h2>Check Result</h2>
-            <p>Enter your Application ID below</p>
+            <p>Enter your Hall Ticket Number below</p>
 
             <form method="post" class="result-search-form">
-                <input type="text" name="application_id" placeholder="Application ID" required>
+                <input type="text" name="application_id" placeholder="Hall Ticket No." required>
                 <button type="submit">
                     <i class="fas fa-search"></i>
                 </button>
