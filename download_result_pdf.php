@@ -48,7 +48,7 @@ SELECT
     em.subject1,
     em.result
 FROM exam_applications e , exam_marks em
-WHERE e.application_id=:application_id
+WHERE e.application_id=:application_id and em.application_id=:application_id
 LIMIT 1
 ";
 
