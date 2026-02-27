@@ -166,5 +166,5 @@ $pdf->writeHTML($html);
    =============================== */
 ob_end_clean();
 // $pdf->Output('Application_Form_'.$transaction_id.'.pdf', 'D');
-$pdf->Output('Result_'.$application_id.'.pdf', 'I');
+$pdf->Output('Result_'.$application_id.'.pdf', 'D');
 exit;

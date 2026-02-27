@@ -17,10 +17,11 @@ if (isset($_POST['application_id'])) {
     $string=$application_id;
     $string=str_replace("-", "", $string);
     $application_id = substr($string, 0, 4) . '-' .substr($string, 4, 8) . '-' .substr($string, 12);
-/*
+    /*
         $st = $pdo->prepare("SELECT * FROM exam_marks WHERE application_id = ?");
         $st->execute([$application_id]);
         $data = $st->fetch(PDO::FETCH_ASSOC);*/
+        $sql="SELECT em.application_id, ea.full_name, em.subject1, em.result FROM exam_marks em, exam_applications ea WHERE ea.application_id = :application_id and em.application_id = :application_id";
         $st = $pdo->prepare($sql);
         $st->bindParam(':application_id', $application_id);
         $st->execute();
