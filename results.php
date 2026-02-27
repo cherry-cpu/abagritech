@@ -21,7 +21,6 @@ if (isset($_POST['application_id'])) {
         $st = $pdo->prepare("SELECT * FROM exam_marks WHERE application_id = ?");
         $st->execute([$application_id]);
         $data = $st->fetch(PDO::FETCH_ASSOC);*/
-        $sql="SELECT em.application_id, ea.full_name,em.subject1, em.result FROM exam_marks em, exam_applications ea WHERE em.application_id = :application_id and ea.application_id = :application_id";
         $st = $pdo->prepare($sql);
         $st->bindParam(':application_id', $application_id);
         $st->execute();
@@ -227,6 +226,7 @@ if (isset($_POST['application_id'])) {
                 <li><a href="index.html#products">Products</a></li>
                 <li><a href="team.html">Team</a></li>
                 <li><a href="index.html#careers">Careers</a></li>
+                <li><a href="results.php">Results</a></li>
                 <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="videos.html">Videos</a></li>
                 <li><a href="contact.html">Contact</a></li>

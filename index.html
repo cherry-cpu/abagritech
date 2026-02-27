@@ -6,6 +6,82 @@
     <title>Aakasha Bindu Agritech - Organic Pest Solutions</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Header */
+        header {
+            background-color: #002b5c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Notice Bar */
+        .notice-bar {
+            background-color: #8B0000; /* Dark red like university portals */
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        /* Scrolling Text */
+        .scrolling-text {
+            display: inline-block;
+            padding: 12px 0;
+            padding-left: 100%;
+            animation: scrollText 15s linear infinite;
+        }
+
+        .scrolling-text a {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+        }
+
+        .scrolling-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animation */
+        @keyframes scrollText {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Demo Content */
+        .content {
+            padding: 40px;
+            text-align: center;
+        }
+        /* Scrolling Text */
+        .scrolling-text {
+            display: inline-block;
+            padding: 12px 0;
+            padding-left: 100%;
+            animation: scrollText 15s linear infinite;
+        }
+
+        /* Pause animation on hover */
+        .scrolling-text:hover {
+            animation-play-state: paused;
+        }
+
+        .scrolling-text a {
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -23,6 +99,7 @@
                     <li><a href="#products">Products</a></li>
                     <li><a href="team.html">Team</a></li>
                     <li><a href="#careers">Careers</a></li>
+                    <li><a href="results.php">Results</a></li>
                     <li><a href="gallery.html">Gallery</a></li>
                     <li><a href="videos.html">Videos</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -33,6 +110,15 @@
             </nav>
         </div>
     </header>
+    
+    <!-- Scrolling Notice Below Header -->
+    <div class="notice-bar">
+        <div class="scrolling-text">
+            <a href="results.php">
+                Results Have Been Released For The Exam Conducted On 2026 ABAGRITECH ! Click Here to Check Your Results.
+            </a>
+        </div>
+    </div>
 
     <!-- Hero Carousel -->
     <section id="home" class="hero-section">
