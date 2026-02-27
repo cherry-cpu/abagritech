@@ -30,27 +30,26 @@ $application_id = trim($_GET['application_id']);
 /* ===============================
    FETCH APPLICATION DATA
    =============================== */
-$sql = "
-SELECT 
-    e.application_id,
-    e.full_name,
-    e.father_name,
-    e.date_of_birth,
-    e.gender,
-    e.email,
-    e.phone,
-    e.aadhar,
-    e.caste,
-    e.position,
-    e.exam_center,
-    e.photo_path,
-    e.signature_path,
-    em.subject1,
-    em.result
-FROM exam_applications e , exam_marks em
-WHERE e.application_id=:application_id and em.application_id=:application_id
-LIMIT 1
-";
+$sql = "SELECT e.application_id,
+                e.full_name,
+                e.father_name,
+                e.date_of_birth,
+                e.gender,
+                e.email,
+                e.phone,
+                e.aadhar,
+                e.caste,
+                e.position,
+                e.exam_center,
+                e.photo_path,
+                e.signature_path,
+                em.subject1,
+                em.result
+            FROM exam_applications e
+            LEFT JOIN dbmaster.exam_marks em
+            ON em.application_id COLLATE utf8mb4_unicode_ci = e.application_id
+            WHERE e.application_id=:application_id
+        LIMIT 1";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':application_id', $application_id);
@@ -117,34 +116,11 @@ $html = '<html>
         <td class="side_variable">Full Name</td>
         <td colspan="3">'.$full_name.'</td>
     </tr>
-    <tr>
-        <td colspan="1" class="side_variable">Date of Birth</td>
-        <td colspan="1">'.$dat_of_birth.'</td>
-    </tr>
-        <tr>
-        <td class="side_variable">Gender</td>
-        <td>'.$gender.'</td>
-        <td class="side_variable">Caste</td>
-        <td colspan="2">'.$caste.'</td>
-    </tr>
-    <tr>
+     <tr>
         <td class="side_variable">Father Name</td>
         <td colspan="4">'.$father_name.'</td>
     </tr>
-    <tr>
-        <td class="side_variable">Phone</td>
-        <td>'.$phone.'</td>
-        <td class="side_variable">Mail</td>
-        <td colspan="2">'.$mail.'</td>
-    </tr>
-    <tr>
-        <td class="side_variable">Aadhar No</td>
-        <td colspan="4">'.$aadhar_no.'</td>
-    </tr>
-    <tr style="height: 25px;">
 
-    </tr>
-    <tr style="height: 25px;"></tr>
     <tr>
         <th colspan="5" class="heading"><h2>Application Details</h2></th>
     </tr>
