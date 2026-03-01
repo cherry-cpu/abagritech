@@ -248,7 +248,7 @@ if (isset($_POST['application_id'])) {
 </section>
 
 <!-- ================= RESULT SECTION ================= -->
-<section class="result-section">
+<section class="result-section" style="opacity: 1;">
     <div class="container">
 
         <div class="result-search-card">
@@ -300,76 +300,74 @@ if (isset($_POST['application_id'])) {
         <?php endif; ?>
 
     </div>
-        <!-- results -->
-            <div>
+
+
+</section>
+<!-- results -->
+
+<!-- Telangana & Andhra Pradesh Tables -->
 <style>
-.containerTable {
-    max-width: 1200px;
-    margin: auto;
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-}
+    .containerTable {
+        max-width: 1200px;
+        margin: auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
 
-h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #333;
-}
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
-thead {
-    background: #2d3748;
-    color: white;
-}
+    thead {
+        background: #2d3748;
+        color: white;
+    }
 
-thead th {
-    padding: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 14px;
-}
+    thead th {
+        padding: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 14px;
+    }
 
-tbody tr {
-    transition: 0.3s;
-}
 
-tbody tr:hover {
-    background-color: #f7fafc;
-}
+    tbody tr:hover {
+        background-color: #f7fafc;
+    }
 
-td {
-    padding: 12px;
-    text-align: center;
-    color: #444;
-}
+    td {
+        padding: 12px;
+        text-align: center;
+        color: #444;
+    }
 
-.district-row td {
-    background: #edf2f7;
-    font-weight: bold;
-    text-align: left;
-    font-size: 16px;
-}
+    .district-row td {
+        background: #edf2f7;
+        font-weight: bold;
+        text-align: left;
+        font-size: 16px;
+    }
 
-.total-cell {
-    font-weight: bold;
-    color: #2b6cb0;
-}
+    .total-cell {
+        font-weight: bold;
+        color: #2b6cb0;
+    }
 
-@media (max-width: 768px) {
-    body { padding: 10px; }
-    .containerTable { padding: 15px; }
-    td, th { font-size: 12px; padding: 8px; }
-}
+    @media (max-width: 768px) {
+        body { padding: 10px; }
+        .containerTable { padding: 15px; }
+        td, th { font-size: 12px; padding: 8px; }
+    }
 </style>
-</head>
-
-<body>
 
 <div class="containerTable">
     <h2>Telangana District-wise Data</h2>
@@ -442,121 +440,202 @@ td {
     <tr><td></td><td>SC</td><td></td><td>1</td><td></td><td></td><td class="total-cell"></td></tr>
     <tr><td></td><td>ST</td><td>1</td><td></td><td></td><td></td><td class="total-cell"></td></tr>
 
+        </tbody>
+        </table>
+        <br>
+        <br>
+            <h2>Andhra Pradesh District-wise Data</h2>
+
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>District</th>
+                <th>Caste</th>
+                <th>DAFO</th>
+                <th>MAFO</th>
+                <th>RAFO</th>
+                <th>ZAFO</th>
+                <th>Grand Total</th>
+            </tr>
+        </thead>
+        <tbody>
+    <!-- Alluri Sitharama Raju -->
+    <tr class="district-row"><td colspan="7">Alluri Sitharama Raju</td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>ST</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Anakapalli -->
+    <tr class="district-row"><td colspan="7">Anakapalli</td></tr>
+    <tr><td></td><td>Total</td><td>0</td><td>2</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>0</td><td>2</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Anantapur -->
+    <tr class="district-row"><td colspan="7">Anantapur</td></tr>
+    <tr><td></td><td>Total</td><td>9</td><td>11</td><td>10</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>7</td><td>9</td><td>4</td><td>0</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>0</td><td>1</td><td>4</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>2</td><td>1</td><td>2</td><td>0</td><td></td></tr>
+
+    <!-- Ananthapuramu -->
+    <tr class="district-row"><td colspan="7">Ananthapuramu</td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>6</td><td>1</td><td>1</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>1</td><td>4</td><td>1</td><td>1</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Bapatla -->
+    <tr class="district-row"><td colspan="7">Bapatla</td></tr>
+    <tr><td></td><td>Total</td><td>0</td><td>1</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Chittoor -->
+    <tr class="district-row"><td colspan="7">Chittoor</td></tr>
+    <tr><td></td><td>Total</td><td>0</td><td>1</td><td>3</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>1</td><td>2</td><td>0</td><td></td></tr>
+
+    <!-- Dr. B. R. Ambedkar Konaseema -->
+    <tr class="district-row"><td colspan="7">Dr. B. R. Ambedkar Konaseema</td></tr>
+    <tr><td></td><td>Total</td><td>2</td><td>2</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>1</td><td>2</td><td>1</td><td>0</td><td></td></tr>
+
+    <!-- Eluru -->
+    <tr class="district-row"><td colspan="7">Eluru</td></tr>
+    <tr><td></td><td>Total</td><td>0</td><td>1</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+
+    <!-- Guntur -->
+    <tr class="district-row"><td colspan="7">Guntur</td></tr>
+    <tr><td></td><td>Total</td><td>2</td><td>1</td><td>2</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>2</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>0</td><td>1</td><td>2</td><td>0</td><td></td></tr>
+
+    <!-- Kakinada -->
+    <tr class="district-row"><td colspan="7">Kakinada</td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Krishna -->
+    <tr class="district-row"><td colspan="7">Krishna</td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>2</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>0</td><td>2</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Kurnool -->
+    <tr class="district-row"><td colspan="7">Kurnool</td></tr>
+    <tr><td></td><td>Total</td><td>2</td><td>14</td><td>11</td><td>5</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>2</td><td>10</td><td>7</td><td>3</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>0</td><td>1</td><td>3</td><td>1</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>3</td><td>1</td><td>1</td><td></td></tr>
+
+    <!-- Madanapalle -->
+    <tr class="district-row"><td colspan="7">Madanapalle</td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>ST</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+
+    <!-- Markapuram -->
+    <tr class="district-row"><td colspan="7">Markapuram</td></tr>
+    <tr><td></td><td>Total</td><td>2</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>ST</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Nandyal -->
+    <tr class="district-row"><td colspan="7">Nandyal</td></tr>
+    <tr><td></td><td>Total</td><td>3</td><td>3</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>2</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>1</td><td>2</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>ST</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- NTR -->
+    <tr class="district-row"><td colspan="7">NTR</td></tr>
+    <tr><td></td><td>Total</td><td>2</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>2</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Prakasam -->
+    <tr class="district-row"><td colspan="7">Prakasam</td></tr>
+    <tr><td></td><td>Total</td><td>2</td><td>2</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>1</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Sri Potti Sriramulu Nellore -->
+    <tr class="district-row"><td colspan="7">Sri Potti Sriramulu Nellore</td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>3</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>0</td><td>2</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+    <tr><td></td><td>ST</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- Sri Sathya Sai -->
+    <tr class="district-row"><td colspan="7">Sri Sathya Sai</td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>2</td><td>2</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>1</td><td>2</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+
+    <!-- Tirupati -->
+    <tr class="district-row"><td colspan="7">Tirupati</td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>0</td><td>5</td><td>0</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>0</td><td>0</td><td>2</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>1</td><td>0</td><td>2</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+
+    <!-- Vijayawada -->
+    <tr class="district-row"><td colspan="7">Vijayawada</td></tr>
+    <tr><td></td><td>Total</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+
+    <!-- Visakhapatnam -->
+    <tr class="district-row"><td colspan="7">Visakhapatnam</td></tr>
+    <tr><td></td><td>Total</td><td>0</td><td>1</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>ST</td><td>0</td><td>1</td><td>0</td><td>0</td><td></td></tr>
+
+    <!-- YSR Kadapa -->
+    <tr class="district-row"><td colspan="7">YSR Kadapa</td></tr>
+    <tr><td></td><td>Total</td><td>3</td><td>7</td><td>7</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>2</td><td>3</td><td>2</td><td>0</td><td></td></tr>
+    <tr><td></td><td>OC</td><td>0</td><td>3</td><td>1</td><td>0</td><td></td></tr>
+    <tr><td></td><td>SC</td><td>0</td><td>1</td><td>4</td><td>0</td><td></td></tr>
+    <tr><td></td><td>ST</td><td>1</td><td>0</td><td>0</td><td>0</td><td></td></tr>
+
             </tbody>
         </table>
 </div>
 
-<br>
-<br>    
-<!-- Andhra Pradesh -->
- 
-<div class="containerTable">
-	<h2>Andhra Pradesh District-wise Data</h2>
-
-	<table id="apTable">
-	<thead>
-	<tr>
-	<th>District</th>
-	<th>Caste</th>
-	<th>DAFO</th>
-	<th>MAFO</th>
-	<th>RAFO</th>
-	<th>ZAFO</th>
-	<th>Grand Total</th>
-	</tr>
-	</thead>
-	<tbody>
-
-	<tr class="district-row"><td colspan="7">Alluri Sitharama Raju</td></tr>
-	<tr><td></td><td>Total</td><td>1</td><td>1</td><td></td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>ST</td><td>1</td><td>1</td><td></td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Anakapalli</td></tr>
-	<tr><td></td><td>BC</td><td></td><td>2</td><td></td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Anantapur</td></tr>
-	<tr><td></td><td>Total</td><td>9</td><td>11</td><td>10</td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>BC</td><td>7</td><td>9</td><td>4</td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>OC</td><td></td><td>1</td><td>4</td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>SC</td><td>2</td><td>1</td><td>2</td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Ananthapuramu</td></tr>
-	<tr><td></td><td>BC</td><td>1</td><td>4</td><td>1</td><td>1</td><td class="total-cell"></td></tr>
-	<tr><td></td><td>OC</td><td></td><td>1</td><td></td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>SC</td><td></td><td>1</td><td></td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Bapatla</td></tr>
-	<tr><td></td><td>BC</td><td></td><td></td><td>1</td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>OC</td><td></td><td>1</td><td></td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Chittoor</td></tr>
-	<tr><td></td><td>BC</td><td></td><td></td><td>1</td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>SC</td><td></td><td>1</td><td>2</td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Dr. B. R. Ambedkar Konaseema</td></tr>
-	<tr><td></td><td>OC</td><td>1</td><td></td><td></td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>SC</td><td>1</td><td>2</td><td>1</td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Eluru</td></tr>
-	<tr><td></td><td>BC</td><td></td><td>1</td><td></td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>SC</td><td></td><td></td><td>1</td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Guntur</td></tr>
-	<tr><td></td><td>BC</td><td>2</td><td></td><td></td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>OC</td><td></td><td>1</td><td>2</td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Krishna</td></tr>
-	<tr><td></td><td>BC</td><td></td><td>2</td><td></td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>SC</td><td>1</td><td></td><td></td><td></td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">Kurnool</td></tr>
-	<tr><td></td><td>BC</td><td>2</td><td>10</td><td>7</td><td>3</td><td class="total-cell"></td></tr>
-	<tr><td></td><td>OC</td><td></td><td>1</td><td>3</td><td>1</td><td class="total-cell"></td></tr>
-	<tr><td></td><td>SC</td><td></td><td>3</td><td>1</td><td>1</td><td class="total-cell"></td></tr>
-
-	<tr class="district-row"><td colspan="7">YSR Kadapa</td></tr>
-	<tr><td></td><td>BC</td><td>2</td><td>3</td><td>2</td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>OC</td><td></td><td>3</td><td>1</td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>SC</td><td></td><td>1</td><td>4</td><td></td><td class="total-cell"></td></tr>
-	<tr><td></td><td>ST</td><td>1</td><td></td><td></td><td></td><td class="total-cell"></td></tr>
-
-	</tbody>
-	</table>
-</div>
-
-
 <script>
-// Auto-calculate totals
-document.querySelectorAll("#resultsTable tbody tr").forEach(row => {
-    if (!row.classList.contains("district-row")) {
-        let cells = row.querySelectorAll("td");
-        let total = 0;
-
-        for (let i = 2; i <= 5; i++) {
-            total += parseInt(cells[i].innerText) || 0;
+    document.querySelectorAll("#apTable tbody tr").forEach(row => {
+        if (!row.classList.contains("district-row")) {
+            let cells = row.querySelectorAll("td");
+            if (cells.length === 7) {
+                let total = 0;
+                for (let i = 2; i <= 5; i++) {
+                    total += parseInt(cells[i].innerText) || 0;
+                }
+                cells[6].innerText = total;
+            }
         }
+    });
 
-        cells[6].innerText = total;
+
+    // Auto-calculate totals
+    function calculateTotals(tableId) {
+        document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
+            if (!row.classList.contains("district-row")) {
+                let cells = row.querySelectorAll("td");
+                let total = 0;
+                for (let i = 2; i <= 5; i++) {
+                    total += parseInt(cells[i].innerText) || 0;
+                }
+                cells[6].innerText = total;
+            }
+        });
     }
-});
-
-document.querySelectorAll("#apTable tbody tr").forEach(row => {
-    if (!row.classList.contains("district-row")) {
-        let cells = row.querySelectorAll("td");
-        let total = 0;
-
-        for (let i = 2; i <= 5; i++) {
-            total += parseInt(cells[i].innerText) || 0;
-        }
-
-        cells[6].innerText = total;
-    }
-});
-
+    calculateTotals("resultsTable");
+    calculateTotals("apTable");
 </script>
-
-            </div>
-</section>
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
