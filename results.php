@@ -388,10 +388,10 @@ if (isset($_POST['application_id'])) {
 
     <!-- Adilabad -->
     <tr class="district-row"><td colspan="7">Adilabad</td></tr>
-    <tr><td></td><td>Total</td><td>3</td><td>4</td><td>1</td><td>1</td><td class="total-cell"></td></tr>
+    <tr><td></td><td>Total</td><td>3</td><td>3</td><td>1</td><td>1</td><td class="total-cell"></td></tr>
     <tr><td></td><td>BC</td><td>3</td><td>1</td><td>1</td><td></td><td class="total-cell"></td></tr>
     <tr><td></td><td>SC</td><td></td><td></td><td></td><td>1</td><td class="total-cell"></td></tr>
-    <tr><td></td><td>ST</td><td></td><td>3</td><td></td><td></td><td class="total-cell"></td></tr>
+    <tr><td></td><td>ST</td><td></td><td>2</td><td></td><td></td><td class="total-cell"></td></tr>
 
     <!-- Hyderabad -->
     <tr class="district-row"><td colspan="7">Hyderabad</td></tr>
@@ -577,9 +577,9 @@ if (isset($_POST['application_id'])) {
 
     <!-- Tirupati -->
     <tr class="district-row"><td colspan="7">Tirupati</td></tr>
-    <tr><td></td><td>Total</td><td>1</td><td>0</td><td>5</td><td>0</td><td></td></tr>
+    <tr><td></td><td>Total</td><td>1</td><td>0</td><td>6</td><td>0</td><td></td></tr>
     <tr><td></td><td>OC</td><td>0</td><td>0</td><td>2</td><td>0</td><td></td></tr>
-    <tr><td></td><td>BC</td><td>1</td><td>0</td><td>2</td><td>0</td><td></td></tr>
+    <tr><td></td><td>BC</td><td>1</td><td>0</td><td>3</td><td>0</td><td></td></tr>
     <tr><td></td><td>SC</td><td>0</td><td>0</td><td>1</td><td>0</td><td></td></tr>
 
     <!-- Vijayawada -->
