@@ -14,7 +14,6 @@ $tracking_id  = $response_array['tracking_id'];
 $order_id     = $response_array['order_id'];
 
 if($order_status === "Success" && $order_id == $_SESSION['order_id']){
-    
     header("Location: submit_application.php?payment=success&tid=".$tracking_id);
     exit();
 
