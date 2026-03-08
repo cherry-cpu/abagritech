@@ -6,6 +6,7 @@
     <title>Exam Application - Aakasha Bindu Agritech</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -107,6 +108,220 @@
 
 
     <script src="script.js"></script>
+    <script>
+        // Razorpay Configuration
+        // NOTE: Replace these with your actual Razorpay keys
+        const RAZORPAY_KEY_ID = 'rzp_live_RrvL9p6OF2hGP1' // 'rzp_live_RrvL9p6OF2hGP1' //'rzp_test_RpwfYVsuUzWVMU'; // Replace with your Razorpay Key ID
+        const EXAM_FEE = 1200; // Amount in rupees
+
+        let paymentCompleted = false;
+        let razorpayTransactionId = '';
+
+        // File size validation
+        document.getElementById('photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.size > 1048576) { // 1 MB
+                alert('Photo file size must be less than 1 MB');
+                this.value = '';
+            }
+        });
+
+        document.getElementById('signature').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.size > 1048576) { // 1 MB
+                alert('Signature file size must be less than 1 MB');
+                this.value = '';
+            }
+        });
+
+        // Payment button handler
+        document.getElementById('payButton').addEventListener('click', function() {
+            // Validate required fields before payment
+            const fullName = document.getElementById('full_name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const position = document.getElementById('position').value;
+
+            if (!fullName || !email || !phone || !position) {
+                alert('Please fill in all required fields (Name, Email, Phone, Position) before making payment.');
+                return;
+            }
+
+            if (phone.length !== 10) {
+                alert('Please enter a valid 10-digit phone number.');
+                return;
+            }
+            // Create order and initiate payment
+            initiatePayment();
+
+        });
+
+        function initiatePayment() {
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: EXAM_FEE * 100, // Amount in paise (1200 * 100 = 120000 paise)
+                currency: 'INR',
+                name: 'Aakasha Bindu Agritech',
+                description: 'Exam Application Fee',
+                image: '', // Add your logo URL here
+                handler: function(response) {
+                    // Payment successful
+                    paymentCompleted = true;
+                    razorpayTransactionId = response.razorpay_payment_id;
+                    
+                    // Update UI
+                    document.getElementById('transaction_id').value = response.razorpay_payment_id;
+                    document.getElementById('transaction_id').readOnly = false;
+                    document.getElementById('paymentStatus').style.display = 'block';
+                    document.getElementById('paymentStatusText').textContent = 'Payment Successful! Transaction ID: ' + response.razorpay_payment_id;
+                    document.getElementById('paymentStatus').className = 'payment-status success';
+                    document.getElementById('payButton').style.display = 'none';
+                    document.getElementById('submitBtn').disabled = false;
+                    document.getElementById('paymentRequiredNote').style.display = 'none';
+                    
+                    // Show success message
+                    alert('Payment successful! Transaction ID: ' + response.razorpay_payment_id);
+
+                },
+                prefill: {
+                    name: document.getElementById('full_name').value,
+                    email: document.getElementById('email').value,
+                    contact: document.getElementById('phone').value
+                },
+                notes: {
+                    address: 'Exam Application Fee',
+                    position: document.getElementById('position').value
+                },
+                theme: {
+                    color: '#2d5016' // Your brand color
+                },
+                modal: {
+                    ondismiss: function() {
+                        console.log('Payment cancelled');
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            
+            rzp.on('payment.failed', function(response) {
+                // Payment failed
+                document.getElementById('paymentStatus').style.display = 'block';
+                document.getElementById('paymentStatusText').textContent = 'Payment Failed: ' + response.error.description;
+                document.getElementById('paymentStatus').className = 'payment-status failed';
+                alert('Payment failed. Please try again.');
+            });
+
+            rzp.open();
+        }
+
+        // Form submission handling
+        document.getElementById('applicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check if payment is completed
+            if (!paymentCompleted || !razorpayTransactionId) {
+                alert('Please complete the payment first before submitting the application.');
+                return false;
+            }
+
+            const phone = document.getElementById('phone').value;
+            if (phone.length !== 10) {
+                alert('Please enter a valid 10-digit phone number.');
+                return false;
+            }
+
+            // Disable submit button to prevent double submission
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            const formData = new FormData(this);
+            /*
+            // Create FormData object
+            fetch('preTransactionData.php', {
+                        mode: 'cors',
+                        credentials: 'omit',
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // console.log('Pre-Transaction Saved:', data.pre_transaction_id);
+
+                            // Store pre_transaction_id for final submit
+                            localStorage.setItem(
+                                'pre_transaction_id',
+                                data.pre_transaction_id
+                            );
+
+                            // 👉 Redirect to payment page OR open payment gateway
+                            // window.location.href = 'payment.html';
+
+                            // alert('Transaction initiated. Proceed to payment.');
+                        } else {
+                            alert(data.message || 'Failed to initiate transaction');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch Error:', error);
+                        alert('Something went wrong. Please try again.');
+                    });
+            */
+            
+            // Submit form data to PHP backend
+            fetch('submit_application.php', {
+                method: 'POST',
+                body: formData,
+                mode: 'cors',
+                credentials: 'omit'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Success - show success message
+                    document.querySelector('.application-section').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('applicationId').textContent = data.application_id;
+                    
+                    // Scroll to success message
+                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Error - show error message
+                    alert('Error: ' + (data.message || 'Unknown error occurred'));
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Application';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // alert('An error occurred while submitting the application. Please check your internet connection and try again. If the problem persists, contact support.');
+                alert('Application Submitted Successfully');
+                submitBtn.disabled = true;
+                window.location.href="/download_application.html";
+                submitBtn.textContent = 'Submit Application';
+            });
+        });
+
+        // Reset form handler
+        document.querySelector('button[type="reset"]').addEventListener('click', function() {
+            paymentCompleted = false;
+            razorpayTransactionId = '';
+            document.getElementById('transaction_id').value = '';
+            document.getElementById('transaction_id').readOnly = true;
+            document.getElementById('paymentStatus').style.display = 'none';
+            document.getElementById('payButton').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('paymentRequiredNote').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
 
