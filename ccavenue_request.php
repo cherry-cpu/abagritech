@@ -1,6 +1,6 @@
 <?php
-include('hdfc_config.php');
-include('hdfc_crypto.php');
+include('ccavenue_config.php');
+include('ccavenue_crypto.php');
 
 // Validate Input
 if(empty($_POST['amount']) || empty($_POST['full_name']) || empty($_POST['email']) || empty($_POST['phone'])) {
@@ -8,17 +8,17 @@ if(empty($_POST['amount']) || empty($_POST['full_name']) || empty($_POST['email'
 }
 
 $merchant_data = '';
-$working_key = HDFC_WORKING_KEY;
-$access_code = HDFC_ACCESS_CODE;
+$working_key = CCAVENUE_WORKING_KEY;
+$access_code = CCAVENUE_ACCESS_CODE;
 
 // Standard Parameters required by CCAvenue/HDFC
 $data = array(
-    'merchant_id' => HDFC_MERCHANT_ID,
+    'merchant_id' => CCAVENUE_MERCHANT_ID,
     'order_id' => 'ORD_' . uniqid() . '_' . time(), // Unique Order ID
     'amount' => $_POST['amount'],
     'currency' => 'INR',
-    'redirect_url' => HDFC_REDIRECT_URL,
-    'cancel_url' => HDFC_CANCEL_URL,
+    'redirect_url' => CCAVENUE_REDIRECT_URL,
+    'cancel_url' => CCAVENUE_CANCEL_URL,
     'language' => 'EN',
     'billing_name' => $_POST['full_name'],
     'billing_address' => isset($_POST['address']) ? $_POST['address'] : '',
@@ -48,7 +48,7 @@ $encrypted_data = encrypt($merchant_data, $working_key);
 <body>
     <center>
         <h2>Please wait, redirecting to payment gateway...</h2>
-        <form method="post" name="redirect" action="<?php echo HDFC_TRANSACTION_URL; ?>"> 
+        <form method="post" name="redirect" action="<?php echo CCAVENUE_TRANSACTION_URL; ?>"> 
             <?php
             echo "<input type=hidden name=encRequest value=$encrypted_data>";
             echo "<input type=hidden name=access_code value=$access_code>";
