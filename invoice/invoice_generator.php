@@ -155,33 +155,33 @@
         <h3>Customer (To) Details</h3>
         <div class="form-group">
             <label>Name:</label>
-            <input type="text" name="customer_name"  required value="asd">
+            <input type="text" name="customer_name"  required>
             <label>Phone:</label>
-            <input type="text" name="phone" value="asd">
+            <input type="text" name="phone">
         </div>
 
         <div class="form-group">
             <label>Email:</label>
-            <input type="email" name="email" value="asd@asd.asd">
+            <input type="email" name="email">
         </div>
 
         <div class="form-group">
             <label>Address:</label>
-            <input type="text" name="address" required value="asd">
+            <input type="text" name="address" required>
         </div>
 
         <div class="form-group-row">
             <div class="form-group">
                 <label>City:</label>
-                <input type="text" name="city" required value="asd">
+                <input type="text" name="city" required>
             </div>
             <div class="form-group">
                 <label>State:</label>
-                <input type="text" name="state" required value="asd">
+                <input type="text" name="state" required>
             </div>
             <div class="form-group">
                 <label>ZIP:</label>
-                <input type="text" name="zip" required value="asd">
+                <input type="text" name="zip" required>
             </div>
         </div>
 
