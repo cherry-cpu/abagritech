@@ -1,12 +1,12 @@
 <?php
 ob_start();
 require_once('../tcpdf/tcpdf.php');
-require_once('config.php');
+require_once('../config.php');
 
 mysqli_report(MYSQLI_REPORT_STRICT | MYSQLI_REPORT_ERROR); // Enable exceptions for mysqli
 
 try {
-    $conn = new mysqli(DEV_DB_HOST, DEV_DB_USER, DEV_DB_PASS, DEV_DB_NAME);
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
     $conn->set_charset("utf8");
 
     // Only handle POST submissions
