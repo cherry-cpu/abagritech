@@ -49,7 +49,7 @@ foreach ($data as $key => $value) {
 $merchant_data = implode('&', $parts);
 
 $encrypted_data = encrypt($merchant_data, $working_key);
-echo "encryptedText: " . $encrypted_data . "\n";
+//echo "encryptedText: " . $encrypted_data . "\n";
 ?>
 <!DOCTYPE html>
 <html lang="en">

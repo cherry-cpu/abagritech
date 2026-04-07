@@ -1,8 +1,10 @@
 <?php
+// define('CCAVENUE_MERCHANT_ID', '4432458');
+// define('CCAVENUE_ACCESS_CODE', 'AVSS89NC81BF81SSFB');
+// define('CCAVENUE_WORKING_KEY', 'AC9299915B519A84789663C427539A66');
 define('CCAVENUE_MERCHANT_ID', '4432458');
 define('CCAVENUE_ACCESS_CODE', 'ATSS89NC81BF81SSFB');
 define('CCAVENUE_WORKING_KEY', 'AC9299915B519A84789663C427539A66');
-
 // URLs
 // Update these with your live domain URLs
 define('CCAVENUE_REDIRECT_URL', 'https://abagritech.com/ccavenue_response.php');

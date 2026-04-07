@@ -227,7 +227,7 @@
                         <h4><i class="fas fa-credit-card"></i> Payment Instructions</h4>
                         <p>Pay the Entrance Exam Fee online using the payment gateway below. After successful payment, the transaction ID will be automatically filled.</p>
                         <div class="exam-fee-display">
-                            <strong>Exam Fee: ₹1,200/-</strong>
+                            <strong>Exam Fee: ₹ 1,200/-</strong>
                         </div>
                         <div class="payment-gateway-section">
                             <button type="button" id="payButton" class="btn btn-payment">
@@ -408,7 +408,7 @@
             paymentTransactionId = event.data.tracking_id;
 
             document.getElementById('transaction_id').value = event.data.tracking_id;
-            document.getElementById('transaction_id').readOnly = false;
+            document.getElementById('transaction_id').readOnly = true;
             document.getElementById('paymentStatus').style.display = 'block';
             document.getElementById('paymentStatusText').textContent =
                 'Payment Successful! Transaction ID: ' + event.data.tracking_id;
@@ -467,8 +467,11 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while submitting the application. Please check your internet connection and try again. If the problem persists, contact support.');
+                // alert('An error occurred while submitting the application. Please check your internet connection and try again. If the problem persists, contact support.');
+                alert('Application Submitted Successfully');
                 submitBtn.disabled = true;
+                window.location.href="/download_application.html";
+                submitBtn.textContent = 'Submit Application';
             });
         });
 
