@@ -299,9 +299,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resp=array(
             'success' => true,
             'application_id' => $application_id,
-            'message' => 'Application asdasd submitted successfully!'
+            'message' => 'Application submitted successfully!'
         );
-        echo json_encode($resp, JSON_PRETTY_PRINT);
+       // echo json_encode($resp, JSON_PRETTY_PRINT);
         error_log("DB applicant Insertion successful.");
     } catch(PDOException $e) {
         // Return error response

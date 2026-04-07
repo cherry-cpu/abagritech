@@ -80,14 +80,14 @@ while ($row = $result->fetch_assoc()) {
     $total += $price;
 
     $html .= '<tr>
-        <td>'.$row['product_name'].'</td>
-        <td align="center">'.$row['packing'].'</td>
-        <td align="right">'.$row['billing_price'].'</td>
-        <td align="right">'.$row['disc_50'].'</td>
-        <td align="right">'.$row['disc_40'].'</td>
-        <td align="right">'.$row['disc_30'].'</td>
-        <td align="right">'.$row['general_discount'].'</td>
-        <td align="center">'.$row['product_code'].'</td>
+        <td>' . $row['product_name'] . '</td>
+        <td align="center">' . $row['packing'] . '</td>
+        <td align="right">' . $row['billing_price'] . '</td>
+        <td align="right">' . $row['disc_50'] . '</td>
+        <td align="right">' . $row['disc_40'] . '</td>
+        <td align="right">' . $row['disc_30'] . '</td>
+        <td align="right">' . $row['general_discount'] . '</td>
+        <td align="center">' . $row['product_code'] . '</td>
     </tr>';
 }
 
@@ -95,7 +95,7 @@ while ($row = $result->fetch_assoc()) {
 $html .= '
 <tr>
     <td colspan="2"><b>Total</b></td>
-    <td colspan="6" align="right"><b>'.$total.'</b></td>
+    <td colspan="6" align="right"><b>' . $total . '</b></td>
 </tr>
 ';
 

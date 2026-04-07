@@ -1,8 +1,8 @@
 <?php
-include('hdfc_config.php');
-include('hdfc_crypto.php');
+include('ccavenue_config.php');
+include('ccavenue_crypto.php');
 
-$workingKey = HDFC_WORKING_KEY;
+$workingKey = CCAVENUE_WORKING_KEY;
 $encResponse = $_POST["encResp"]; 
 $rcvdString = decrypt($encResponse, $workingKey); 
 $order_status = "";
