@@ -313,13 +313,13 @@ document.getElementById("payButton").addEventListener("click", function(){
 
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = "ccavRequestHandler.php";
+    form.action = "ccavenue_request.php";
 
     form.innerHTML = `
         <input type="hidden" name="amount" value="1200">
-        <input type="hidden" name="billing_name" value="${fullName}">
-        <input type="hidden" name="billing_email" value="${email}">
-        <input type="hidden" name="billing_tel" value="${phone}">
+        <input type="hidden" name="full_name" value="${fullName}">
+        <input type="hidden" name="email" value="${email}">
+        <input type="hidden" name="phone" value="${phone}">
         <input type="hidden" name="position" value="${position}">
     `;
 
