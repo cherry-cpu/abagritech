@@ -23,8 +23,7 @@ if (!$row) {
 $data = json_decode($row['invoice_json'], true);
 
 // CREATE PDF
-// $pdf = new TCPDF();
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new TCPDF();
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Aakasha Bindu Agritech');
 $pdf->SetTitle('Invoice');
@@ -53,37 +52,25 @@ $pdf->Cell(0, 6, "Customer: " . $data['customer']['name'], 0, 1);
 $pdf->Cell(0, 6, "Phone: " . $data['customer']['phone'], 0, 1);
 $pdf->Cell(0, 6, "City: " . $data['customer']['city'], 0, 1);
 
-
+// TABLE
 $html = '
 <style>
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    text-align: center;
-}
-td, th {
-    border: 1px solid #000;
-    padding: 6px;
-    font-size: 10px;
-}
+table { border-collapse: collapse; width: 100%; }
+th { background-color: #f2f2f2; font-weight: bold; }
+td, th { border: 1px solid #000; padding: 6px; font-size: 10px; }
 </style>
 
 <table>
 <tr>
-    <th>S.No</th>
-    <th>Product Name</th>
-    <th>code</th>
-    <th>qty</th>
-    <th>price</th>
-    <th>subtotal</th>
+<th>#</th>
+<th>Product</th>
+<th>Code</th>
+<th>Qty</th>
+<th>Price</th>
+<th>Subtotal</th>
 </tr>
 ';
 
-$total = 0;
 $i = 1;
 foreach ($data['products'] as $p) {
     $html .= '<tr>
@@ -96,30 +83,21 @@ foreach ($data['products'] as $p) {
     </tr>';
 }
 
+$html .= '</table><br>';
+
+// SUMMARY
 $html .= '
-</table>
-<b>Subtotal: Rs. </b> '.$data['summary']['subtotal'].'<br>
-<b>SGST: Rs. </b> '.$data['summary']['sgst'].'<br>
-<b>CGST: Rs. </b> '.$data['summary']['cgst'].'<br>
+<b>Subtotal:</b> '.$data['summary']['subtotal'].'<br>
+<b>SGST:</b> '.$data['summary']['sgst'].'<br>
+<b>CGST:</b> '.$data['summary']['cgst'].'<br>
 <b>Discount:</b> '.$data['summary']['discount'].'<br>
-<b>Grand Total: Rs. </b> '.$data['summary']['total'].'<br><br>
+<b>Grand Total:</b> '.$data['summary']['total'].'<br><br>
 
 <b>Terms & Conditions</b>
 <ul>
 <li>Goods once sold will not be taken back</li>
 <li>Payment due within agreed time</li>
 <li>Subject to jurisdiction</li>
-</ul>
-';
-
-$html .= '
-<br><br><br><br>
-<b>Terms & Conditions Summary</b>
-
-<ul>
-<p><b>1. Cash Discount:</b> 50% reduction if paid within 7 days.<p><br>
-<p><b>2. Standard Credit:</b> 40% discount for 20 days; 30% discount for 45 days.<p><br>
-<p><b>3. General Discount:</b> 25% flat discount for standard billing.";<p><br>
 </ul>
 ';
 

@@ -445,7 +445,7 @@ $invoice_date = date('Y-m-d');
     </style>
 </head>
 <body>
-
+<form id="invoiceForm" method="POST" action="save_invoice.php">
 <div class="container">
     <!-- Invoice Card -->
     <div class="card">
@@ -569,9 +569,6 @@ $invoice_date = date('Y-m-d');
 
     <!-- Action Buttons -->
     <div class="btn-group no-print" style="margin-top: 20px; justify-content: flex-end;">
-        <button type="button" class="btn btn-primary" onclick="window.print();">
-            <i class="fas fa-print"></i> Print Invoice
-        </button>
         <button type="button" class="btn btn-success" onclick="saveInvoice();">
             <i class="fas fa-save"></i> Save Invoice
         </button>
@@ -583,12 +580,27 @@ $invoice_date = date('Y-m-d');
 // Product Catalog — add/edit products and prices here
 // ═══════════════════════════════════════════════════════════════
 const PRODUCTS = [
-    { name: 'M-KILLER (500ml)',       code: 'MK-500',   price: 450 },
-    { name: 'M-KILLER (1L)',          code: 'MK-1000',  price: 800 },
-    { name: 'STAR BINDU (500ml)',     code: 'SB-500',   price: 500 },
-    { name: 'STAR BINDU (1L)',        code: 'SB-1000',  price: 900 },
-    { name: 'Nutri Power (500g)',     code: 'NP-500',   price: 350 },
-    { name: 'Nutri Power (1kg)',      code: 'NP-1000',  price: 620 },
+    { name: 'Groww Booster(20L)',       code: 'GB-20000',   price: 2899 },
+
+    { name: 'Groww Power (20L)',     code: 'GP-20000',   price: 3099 },
+    
+    { name: 'STAR BINDU (1L)',        code: 'SB-1000',  price: 3499 },
+    { name: 'STAR BINDU (500ml)',     code: 'SB-500',   price: 1799 },
+    { name: 'STAR BINDU (250ml)',     code: 'SB-250',   price: 999 },
+    
+    { name: 'M-KILLER (1L)',          code: 'MK-1000',  price: 3499 },
+    { name: 'M-KILLER (500ml)',          code: 'MK-500',  price: 1799 },
+    { name: 'M-KILLER (250ml)',          code: 'MK-250',  price: 999 },
+
+    { name: 'Growth King (1L)',       code: 'GK-1000',   price: 699 },
+    { name: 'Growth King (500ml)',       code: 'GK-500',   price: 399 },
+
+    { name: 'Nutri Power (1L)',     code: 'GP-1000',   price: 699 },
+    { name: 'Nutri Power (500ml)',     code: 'GP-500',   price: 399 },
+
+    { name: 'Humi Black Gold (1Kg)',     code: 'HBG-1000',   price: 699 },
+    { name: 'Humi Black Gold (500gms)',     code: 'HBG-500',   price: 399 },
+
 ];
 
 let rowCounter = 0;
@@ -737,11 +749,11 @@ function recalculate() {
     const grandTotal = afterDiscount + sgstAmt + cgstAmt;
 
     // Update summary
-    document.getElementById('summarySubtotal').textContent = '₹' + itemsTotal.toFixed(2);
-    document.getElementById('summarySgst').textContent     = '₹' + sgstAmt.toFixed(2);
-    document.getElementById('summaryCgst').textContent     = '₹' + cgstAmt.toFixed(2);
-    document.getElementById('summaryDiscount').textContent  = '-₹' + discountAmt.toFixed(2);
-    document.getElementById('summaryTotal').textContent     = '₹' + grandTotal.toFixed(2);
+    document.getElementById('summarySubtotal').textContent =itemsTotal.toFixed(2);
+    document.getElementById('summarySgst').textContent     =sgstAmt.toFixed(2);
+    document.getElementById('summaryCgst').textContent     = cgstAmt.toFixed(2);
+    document.getElementById('summaryDiscount').textContent  = discountAmt.toFixed(2);
+    document.getElementById('summaryTotal').textContent     = grandTotal.toFixed(2);
 
     // Update badges
     document.getElementById('sgstBadge').textContent = sgstPct + '%';
@@ -754,6 +766,7 @@ function recalculate() {
 // ═══════════════════════════════════════════════════════════════
 function saveInvoice() {
     const rows = document.querySelectorAll('#productRows tr');
+
     if (rows.length === 0) {
         alert('Please add at least one product.');
         return;
@@ -762,24 +775,61 @@ function saveInvoice() {
     const name = document.getElementById('customer_name').value.trim();
     if (!name) {
         alert('Please enter the customer name.');
-        document.getElementById('customer_name').focus();
         return;
     }
 
-    // Validate all rows have product selected
-    let valid = true;
+    let products = [];
+
     rows.forEach(tr => {
+        const id = tr.id.replace('row-', '');
         const sel = tr.querySelector('select');
-        if (sel.value === '') { sel.classList.add('input-error'); valid = false; }
-        else { sel.classList.remove('input-error'); }
+
+        if (sel.value === '') return;
+
+        const product = PRODUCTS[sel.value];
+
+        products.push({
+            name: product.name,
+            code: product.code,
+            qty: document.getElementById('qty-' + id).value,
+            price: document.getElementById('price-' + id).value,
+            subtotal: document.getElementById('subtotal-' + id).value
+        });
     });
-    if (!valid) { alert('Please select a product in all rows.'); return; }
 
-    alert('Invoice saved successfully!\nInvoice ID: <?php echo $invoice_id; ?>');
-    // Uncomment below to actually submit:
-    // document.getElementById('invoiceForm').submit();
+    const data = {
+        invoice_id: "<?php echo $invoice_id; ?>",
+        date: "<?php echo $invoice_date; ?>",
+        customer: {
+            name: name,
+            phone: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            city: document.getElementById('city').value,
+            address: document.getElementById('address').value
+        },
+        products: products,
+        summary: {
+            subtotal: document.getElementById('summarySubtotal').textContent,
+            sgst: document.getElementById('summarySgst').textContent,
+            cgst: document.getElementById('summaryCgst').textContent,
+            discount: document.getElementById('summaryDiscount').textContent,
+            total: document.getElementById('summaryTotal').textContent
+        },
+        tax: {
+            sgst_pct: document.getElementById('sgst').value,
+            cgst_pct: document.getElementById('cgst').value,
+            discount_pct: document.getElementById('discount').value
+        }
+    };
+
+    let input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'invoice_data';
+    input.value = JSON.stringify(data);
+
+    document.getElementById('invoiceForm').appendChild(input);
+    document.getElementById('invoiceForm').submit();
 }
-
 // ═══════════════════════════════════════════════════════════════
 // Initialize with one empty row
 // ═══════════════════════════════════════════════════════════════
@@ -787,6 +837,6 @@ window.addEventListener('DOMContentLoaded', () => {
     addProductRow();
 });
 </script>
-
+</form>
 </body>
 </html>
