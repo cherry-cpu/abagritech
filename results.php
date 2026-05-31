@@ -653,7 +653,7 @@ if (isset($_POST['application_id'])) {
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="exam_application.html">Exam Application</a></li>
-                    <li><a href="download_hallticket.html">Download Hall Ticket</a></li>
+                    <!--<li><a href="download_hallticket.html">Download Hall Ticket</a></li> -->
                 </ul>
             </div>
 

@@ -225,16 +225,19 @@
 
                     <div class="payment-info-box">
                         <h4><i class="fas fa-credit-card"></i> Payment Instructions</h4>
-                        <p>Pay the Entrance Exam Fee online using the payment gateway below. After successful payment, the transaction ID will be automatically filled.</p>
+                        <p>Pay the Entrance Exam Fee online using the PhonePe UPI button below. The transaction reference is generated automatically and will be filled into the form.</p>
                         <div class="exam-fee-display">
                             <strong>Exam Fee: ₹ 1,200/-</strong>
                         </div>
                         <div class="payment-gateway-section">
                             <button type="button" id="payButton" class="btn btn-payment">
-                                <i class="fas fa-lock"></i> Pay ₹1,200/- (CCAvenue)
+                                <i class="fas fa-lock"></i> Pay ₹1,200/- (PhonePe UPI)
                             </button>
                             <p class="payment-note">
-                                <i class="fas fa-shield-alt"></i> Secure payment powered by CCAvenue
+                                <i class="fas fa-shield-alt"></i> Secure payment powered by PhonePe UPI
+                            </p>
+                            <p class="payment-instruction">
+                                After completing payment in PhonePe, paste the transaction reference below and submit the form.
                             </p>
                             <div class="payment-status" id="paymentStatus" style="display: none;">
                                 <i class="fas fa-check-circle"></i>
@@ -242,13 +245,12 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="transaction_id">Transaction Id Number / UTR Number *</label>
-                        <input type="text" id="transaction_id" name="transaction_id" placeholder="Transaction ID will be auto-filled after payment" required readonly>
-                        <small class="file-hint">Transaction ID will be automatically filled after successful payment</small>
+                        <input type="text" id="transaction_id" name="transaction_id" placeholder="Transaction reference will be generated automatically" required readonly>
+                        <small class="file-hint">The transaction reference is generated automatically by the server and updated in the form.</small>
                     </div>
-
                     <div class="form-group checkbox-group">
                         <label>
                             <input type="checkbox" name="terms" required>
@@ -305,7 +307,7 @@
                         <li><a href="contact.html">Contact</a></li>
                         <li><a href="exam_application.html">Exam Application</a></li>
                         <li><a href="download_application.html">Download Application</a></li>
-                        <li><a href="download_hallticket.html">Download Hall Ticket</a></li>
+                        <!--<li><a href="download_hallticket.html">Download Hall Ticket</a></li> -->
                         <li><a href="terms-and-conditions.html">Terms &amp; Conditions</a></li>
                         <li><a href="privacy-policy.html">Privacy Policy</a></li>
                         <li><a href="refund-cancellation-policy.html">Refund &amp; Cancellation Policy</a></li>
@@ -330,6 +332,13 @@
     <script src="script.js"></script>
     <script>
         const EXAM_FEE = 1200; // Amount in rupees
+        const PHONEPE_UPI_ID = '9533496056-2.wallet@phonepe';
+        const PHONEPE_MERCHANT_NAME = 'Aakasha Bindu Agritech';
+        const PHONEPE_TRANSACTION_NOTE = 'Exam Application Fee';
+        const PHONEPE_CLIENT_ID = 'SU2605111719535628960899';
+        const PHONEPE_CLIENT_VERSION = '1';
+        const PHONEPE_CLIENT_CREDENTIALS = '9829f1b9-1c5b-499d-ac66-c63fcd7d7ab7';
+
         let paymentCompleted = false;
         let paymentTransactionId = '';
 
@@ -350,12 +359,11 @@
             }
         });
 
-        function startCcavenuePayment() {
+        function startPhonePePayment() {
             const fullName = document.getElementById('full_name').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
             const position = document.getElementById('position').value;
-            const address = document.getElementById('address').value;
 
             if (!fullName || !email || !phone || !position) {
                 alert('Please fill in all required fields (Name, Email, Phone, Position) before making payment.');
@@ -367,65 +375,65 @@
                 return;
             }
 
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'ccavenue_request.php';
-            form.target = 'ccavenuePaymentWindow';
+            const payButton = document.getElementById('payButton');
+            payButton.disabled = true;
+            document.getElementById('paymentStatus').style.display = 'block';
+            document.getElementById('paymentStatusText').textContent = 'Creating PhonePe payment request...';
+            document.getElementById('paymentStatus').className = 'payment-status info';
 
-            const fields = {
-                amount: EXAM_FEE.toString(),
+            const requestPayload = {
                 full_name: fullName,
                 email: email,
                 phone: phone,
                 position: position,
-                address: address
+                amount: EXAM_FEE
             };
 
-            Object.keys(fields).forEach(function(key) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = fields[key];
-                form.appendChild(input);
-            });
+            fetch('phonepe_request.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestPayload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    throw new Error(data.message || 'Unable to create PhonePe request');
+                }
 
-            document.body.appendChild(form);
-            window.open('', 'ccavenuePaymentWindow', 'width=800,height=600');
-            form.submit();
-            document.body.removeChild(form);
+                document.getElementById('transaction_id').value = data.transaction_id;
+                document.getElementById('transaction_id').readOnly = true;
+                document.getElementById('paymentStatus').style.display = 'block';
+                document.getElementById('paymentStatusText').textContent = 'Payment request created. PhonePe order reference: ' + data.transaction_id + '. Complete the payment in PhonePe.';
+                document.getElementById('paymentStatus').className = 'payment-status success';
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('paymentRequiredNote').style.display = 'none';
+                paymentCompleted = true;
+                paymentTransactionId = data.transaction_id;
+
+                window.location.href = data.upi_url;
+            })
+            .catch(error => {
+                document.getElementById('paymentStatus').style.display = 'block';
+                document.getElementById('paymentStatusText').textContent = 'Unable to create PhonePe request: ' + error.message;
+                document.getElementById('paymentStatus').className = 'payment-status failed';
+                alert('PhonePe request failed: ' + error.message);
+            })
+            .finally(() => {
+                payButton.disabled = false;
+            });
         }
 
-        // Payment button handler (CCAvenue)
-        document.getElementById('payButton').addEventListener('click', startCcavenuePayment);
-
-        // Listen for response from CCAvenue popup
-        window.addEventListener('message', function(event) {
-            if (!event.data || event.data.status !== 'success' || !event.data.tracking_id) {
-                return;
-            }
-
-            paymentCompleted = true;
-            paymentTransactionId = event.data.tracking_id;
-
-            document.getElementById('transaction_id').value = event.data.tracking_id;
-            document.getElementById('transaction_id').readOnly = true;
-            document.getElementById('paymentStatus').style.display = 'block';
-            document.getElementById('paymentStatusText').textContent =
-                'Payment Successful! Transaction ID: ' + event.data.tracking_id;
-            document.getElementById('paymentStatus').className = 'payment-status success';
-            document.getElementById('payButton').style.display = 'none';
-            document.getElementById('submitBtn').disabled = false;
-            document.getElementById('paymentRequiredNote').style.display = 'none';
-
-            alert('Payment successful! Transaction ID: ' + event.data.tracking_id);
-        });
+        document.getElementById('payButton').addEventListener('click', startPhonePePayment);
 
         // Form submission handling
         document.getElementById('applicationForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            if (!paymentCompleted || !paymentTransactionId) {
-                alert('Please complete the payment first before submitting the application.');
+            paymentTransactionId = document.getElementById('transaction_id').value.trim();
+            if (!paymentTransactionId) {
+                alert('Please complete the payment and enter the transaction reference before submitting the application.');
                 return false;
             }
 
@@ -480,7 +488,6 @@
             paymentCompleted = false;
             paymentTransactionId = '';
             document.getElementById('transaction_id').value = '';
-            document.getElementById('transaction_id').readOnly = true;
             document.getElementById('paymentStatus').style.display = 'none';
             document.getElementById('payButton').style.display = 'block';
             document.getElementById('submitBtn').disabled = true;

@@ -272,7 +272,7 @@
                         <li><a href="contact.html">Contact</a></li>
                         <li><a href="exam_application.html">Exam Application</a></li>
                         <li><a href="download_application.html">Download Application</a></li>
-                        <li><a href="download_hallticket.html">Download Hall Ticket</a></li>
+                        <!--<li><a href="download_hallticket.html">Download Hall Ticket</a></li> -->
                     </ul>
                 </div>
                 
