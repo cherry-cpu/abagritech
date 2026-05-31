@@ -225,7 +225,7 @@
 
                     <div class="payment-info-box">
                         <h4><i class="fas fa-credit-card"></i> Payment Instructions</h4>
-                        <p>Pay the Entrance Exam Fee online using the PhonePe UPI button below. The transaction reference is generated automatically and will be filled into the form.</p>
+                        <p>Pay the Entrance Exam Fee online using PhonePe (UPI, cards, net banking). You will be redirected to the secure PhonePe checkout page.</p>
                         <div class="exam-fee-display">
                             <strong>Exam Fee: ₹ 1,200/-</strong>
                         </div>
@@ -237,7 +237,7 @@
                                 <i class="fas fa-shield-alt"></i> Secure payment powered by PhonePe UPI
                             </p>
                             <p class="payment-instruction">
-                                After completing payment in PhonePe, paste the transaction reference below and submit the form.
+                                After successful payment, your order reference will appear below and you can submit the application.
                             </p>
                             <div class="payment-status" id="paymentStatus" style="display: none;">
                                 <i class="fas fa-check-circle"></i>
@@ -248,8 +248,8 @@
                     
                     <div class="form-group">
                         <label for="transaction_id">Transaction Id Number / UTR Number *</label>
-                        <input type="text" id="transaction_id" name="transaction_id" placeholder="Transaction reference will be generated automatically" required readonly>
-                        <small class="file-hint">The transaction reference is generated automatically by the server and updated in the form.</small>
+                        <input type="text" id="transaction_id" name="transaction_id" placeholder="Complete payment to receive order reference" required readonly>
+                        <small class="file-hint">Order reference is filled automatically after PhonePe confirms your payment.</small>
                     </div>
                     <div class="form-group checkbox-group">
                         <label>
@@ -332,15 +332,10 @@
     <script src="script.js"></script>
     <script>
         const EXAM_FEE = 1200; // Amount in rupees
-        const PHONEPE_UPI_ID = '9533496056-2.wallet@phonepe';
-        const PHONEPE_MERCHANT_NAME = 'Aakasha Bindu Agritech';
-        const PHONEPE_TRANSACTION_NOTE = 'Exam Application Fee';
-        const PHONEPE_CLIENT_ID = 'SU2605111719535628960899';
-        const PHONEPE_CLIENT_VERSION = '1';
-        const PHONEPE_CLIENT_CREDENTIALS = '9829f1b9-1c5b-499d-ac66-c63fcd7d7ab7';
 
         let paymentCompleted = false;
         let paymentTransactionId = '';
+        let statusPollTimer = null;
 
         // File size validation
         document.getElementById('photo').addEventListener('change', function(e) {
@@ -358,6 +353,56 @@
                 this.value = '';
             }
         });
+
+        function setPaymentPending(message) {
+            paymentCompleted = false;
+            paymentTransactionId = '';
+            document.getElementById('transaction_id').value = '';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('paymentRequiredNote').style.display = 'block';
+            document.getElementById('paymentStatus').style.display = 'block';
+            document.getElementById('paymentStatusText').textContent = message;
+            document.getElementById('paymentStatus').className = 'payment-status info';
+        }
+
+        function markPaymentVerified(transactionId, message) {
+            paymentCompleted = true;
+            paymentTransactionId = transactionId;
+            document.getElementById('transaction_id').value = transactionId;
+            document.getElementById('paymentStatus').style.display = 'block';
+            document.getElementById('paymentStatusText').textContent = message || ('Payment confirmed. Order reference: ' + transactionId);
+            document.getElementById('paymentStatus').className = 'payment-status success';
+            document.getElementById('submitBtn').disabled = false;
+            document.getElementById('paymentRequiredNote').style.display = 'none';
+            if (statusPollTimer) {
+                clearInterval(statusPollTimer);
+                statusPollTimer = null;
+            }
+        }
+
+        function checkPaymentStatus(merchantOrderId) {
+            return fetch('phonepe_status.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ merchant_order_id: merchantOrderId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.payment_completed) {
+                    markPaymentVerified(merchantOrderId, 'Payment confirmed. Order reference: ' + merchantOrderId);
+                }
+                return data;
+            });
+        }
+
+        function startStatusPolling(merchantOrderId) {
+            if (statusPollTimer) {
+                clearInterval(statusPollTimer);
+            }
+            statusPollTimer = setInterval(function() {
+                checkPaymentStatus(merchantOrderId);
+            }, 5000);
+        }
 
         function startPhonePePayment() {
             const fullName = document.getElementById('full_name').value;
@@ -377,9 +422,7 @@
 
             const payButton = document.getElementById('payButton');
             payButton.disabled = true;
-            document.getElementById('paymentStatus').style.display = 'block';
-            document.getElementById('paymentStatusText').textContent = 'Creating PhonePe payment request...';
-            document.getElementById('paymentStatus').className = 'payment-status info';
+            setPaymentPending('Connecting to PhonePe...');
 
             const requestPayload = {
                 full_name: fullName,
@@ -391,49 +434,81 @@
 
             fetch('phonepe_request.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestPayload)
             })
             .then(response => response.json())
             .then(data => {
                 if (!data.success) {
-                    throw new Error(data.message || 'Unable to create PhonePe request');
+                    throw new Error(data.message || 'Unable to create PhonePe payment');
                 }
 
-                document.getElementById('transaction_id').value = data.transaction_id;
-                document.getElementById('transaction_id').readOnly = true;
-                document.getElementById('paymentStatus').style.display = 'block';
-                document.getElementById('paymentStatusText').textContent = 'Payment request created. PhonePe order reference: ' + data.transaction_id + '. Complete the payment in PhonePe.';
-                document.getElementById('paymentStatus').className = 'payment-status success';
-                document.getElementById('submitBtn').disabled = false;
-                document.getElementById('paymentRequiredNote').style.display = 'none';
-                paymentCompleted = true;
-                paymentTransactionId = data.transaction_id;
+                const orderId = data.merchant_order_id || data.transaction_id;
+                setPaymentPending('Redirecting to PhonePe checkout. Order: ' + orderId);
+                startStatusPolling(orderId);
 
-                window.location.href = data.upi_url;
+                const checkoutUrl = data.redirect_url;
+                if (!checkoutUrl) {
+                    throw new Error('PhonePe did not return a checkout URL');
+                }
+
+                window.location.href = checkoutUrl;
             })
             .catch(error => {
                 document.getElementById('paymentStatus').style.display = 'block';
-                document.getElementById('paymentStatusText').textContent = 'Unable to create PhonePe request: ' + error.message;
+                document.getElementById('paymentStatusText').textContent = 'Unable to start PhonePe payment: ' + error.message;
                 document.getElementById('paymentStatus').className = 'payment-status failed';
-                alert('PhonePe request failed: ' + error.message);
+                alert('PhonePe payment failed: ' + error.message);
             })
             .finally(() => {
                 payButton.disabled = false;
             });
         }
 
+        window.addEventListener('message', function(event) {
+            if (!event.data || !event.data.status) {
+                return;
+            }
+            if (event.data.status === 'success' && event.data.transaction_id) {
+                markPaymentVerified(event.data.transaction_id);
+            }
+        });
+
+        function handleReturnFromPhonePe() {
+            const params = new URLSearchParams(window.location.search);
+            const returnedOrderId = params.get('transaction_id') || params.get('merchantOrderId');
+            if (params.get('payment') === 'success' && returnedOrderId) {
+                checkPaymentStatus(returnedOrderId).then(function(data) {
+                    if (!data.success || !data.payment_completed) {
+                        setPaymentPending('Payment pending verification for order ' + returnedOrderId + '. Please wait or retry payment.');
+                        startStatusPolling(returnedOrderId);
+                    }
+                });
+                return;
+            }
+            try {
+                const stored = localStorage.getItem('phonepe_payment');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    if (parsed.status === 'success' && parsed.transaction_id) {
+                        checkPaymentStatus(parsed.transaction_id).finally(function() {
+                            localStorage.removeItem('phonepe_payment');
+                        });
+                    }
+                }
+            } catch (e) {}
+        }
+
         document.getElementById('payButton').addEventListener('click', startPhonePePayment);
+        handleReturnFromPhonePe();
 
         // Form submission handling
         document.getElementById('applicationForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             paymentTransactionId = document.getElementById('transaction_id').value.trim();
-            if (!paymentTransactionId) {
-                alert('Please complete the payment and enter the transaction reference before submitting the application.');
+            if (!paymentCompleted || !paymentTransactionId) {
+                alert('Please complete and confirm PhonePe payment before submitting the application.');
                 return false;
             }
 
@@ -487,6 +562,10 @@
         document.querySelector('button[type="reset"]').addEventListener('click', function() {
             paymentCompleted = false;
             paymentTransactionId = '';
+            if (statusPollTimer) {
+                clearInterval(statusPollTimer);
+                statusPollTimer = null;
+            }
             document.getElementById('transaction_id').value = '';
             document.getElementById('paymentStatus').style.display = 'none';
             document.getElementById('payButton').style.display = 'block';

@@ -13,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Include configuration file
 require_once 'config.php';
+require_once 'phonepe_config.php';
+require_once 'phonepe_client.php';
 //require_once 'generate_pdf.php';
 //require_once 'send_whatsapp.php';
 
@@ -57,7 +59,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Application details
     $position = $_POST['position'] ?? '';
     $exam_center = $_POST['exam_center'] ?? '';
-    $transaction_id = $_POST['transaction_id'] ?? '';
+    $transaction_id = trim($_POST['transaction_id'] ?? '');
+
+    if ($transaction_id === '') {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Payment reference is required. Please complete PhonePe payment first.'
+        ]);
+        exit;
+    }
+
+    if (!PhonePeClient::isPaymentCompleted($transaction_id)) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Payment not confirmed. Please complete payment on PhonePe before submitting.'
+        ]);
+        exit;
+    }
     
     // Handle file uploads
     $photo_path = '';
