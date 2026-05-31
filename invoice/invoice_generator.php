@@ -1,6 +1,9 @@
 <?php
 // Invoice Generator - Aakasha Bindu Agritech
 // All calculations are done in real-time via JavaScript
+require_once 'check_auth.php';
+requireLogin();
+
 $invoice_id = 'INV_' . strtoupper(uniqid());
 $invoice_date = date('Y-m-d');
 ?>

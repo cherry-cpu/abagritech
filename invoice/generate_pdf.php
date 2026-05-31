@@ -1,6 +1,6 @@
 <?php
 require_once('../tcpdf/tcpdf.php');
-require_once('config.php');
+require_once('../config.php');
 
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
