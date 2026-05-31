@@ -1,4 +1,6 @@
 <?php
+ob_start();
+
 require_once('../tcpdf/tcpdf.php');
 require_once('../config.php');
 
@@ -33,12 +35,8 @@ $pdf->AddPage();
 
 // HEADER
 $pdf->SetFont('helvetica', 'B', 16);
-$pdf->Cell(120, 10, 'INVOICE', 0, 0, 'L');
-
-$logo = 'Logo.png';
-if (file_exists($logo)) {
-    $pdf->Image($logo, 150, 10, 40);
-}
+$pdf->Cell(120, 10, 'ABAGRITECH', 0, 0, 'L');
+$pdf->Cell(120, 10, 'INVOICE', 0, 0, 'C');
 
 $pdf->Ln(15);
 
@@ -46,6 +44,8 @@ $pdf->Ln(15);
 $pdf->SetFont('helvetica', '', 10);
 $pdf->Cell(0, 6, "Invoice ID: $invoice_id", 0, 1);
 $pdf->Cell(0, 6, "Date: " . $data['date'], 0, 1);
+$pdf->Cell(0, 6, "GST No. " . $data['customer']['gstNo'], 0, 1);
+
 
 // CUSTOMER
 $pdf->Ln(5);
@@ -55,31 +55,60 @@ $pdf->Cell(0, 6, "City: " . $data['customer']['city'], 0, 1);
 
 
 $html = '
-<style>
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    text-align: center;
-}
-td, th {
-    border: 1px solid #000;
-    padding: 6px;
-    font-size: 10px;
-}
-</style>
 
-<table>
+<table border="0" cellpadding="6" cellspacing="0" width="100%">
+
 <tr>
-    <th>S.No</th>
-    <th>Product Name</th>
-    <th>code</th>
-    <th>qty</th>
-    <th>price</th>
-    <th>subtotal</th>
+<td width="65%">
+    <h1 style="color:#1E3A8A;">INVOICE</h1>
+    </td>
+</tr>
+
+</table>
+
+<br>
+
+<table border="1" cellpadding="5" cellspacing="0" width="100%">
+
+<tr style="background-color:#E8F1FF;">
+    <td colspan="2"><b>CUSTOMER DETAILS</b></td>
+</tr>
+
+<tr>
+    <td width="25%"><b>Name</b></td>
+    <td width="75%">'.$data['customer']['name'].'</td>
+</tr>
+
+<tr>
+    <td><b>Phone</b></td>
+    <td>'.$data['customer']['phone'].'</td>
+</tr>
+
+<tr>
+    <td><b>City</b></td>
+    <td>'.$data['customer']['city'].'</td>
+</tr>
+
+</table>
+
+<br>
+
+<table border="1" cellpadding="6" cellspacing="0" width="100%">
+
+<tr style="background-color:#1E3A8A;color:white;">
+
+<td width="8%" align="center"><b>#</b></td>
+
+<td width="32%" align="center"><b>Product</b></td>
+
+<td width="15%" align="center"><b>Code</b></td>
+
+<td width="10%" align="center"><b>Qty</b></td>
+
+<td width="15%" align="center"><b>Price</b></td>
+
+<td width="20%" align="center"><b>Total</b></td>
+
 </tr>
 ';
 
@@ -125,5 +154,8 @@ $html .= '
 
 $pdf->writeHTML($html, true, false, true, false, '');
 
+if (ob_get_length()) {
+    ob_end_clean();
+}
+
 $pdf->Output("invoice_$invoice_id.pdf", "I");
-?>

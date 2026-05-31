@@ -486,6 +486,10 @@ $invoice_date = date('Y-m-d');
                     <input type="text" id="address" placeholder="Enter full address">
                 </div>
             </div>
+             <div class="form-field full-width">
+                <label>Gst No</label>
+                <input type="text" id="gstNo" placeholder="Gst no">
+            </div>
 
             <!-- Products Section -->
             <div class="products-section">
@@ -808,10 +812,13 @@ function saveInvoice() {
             phone: document.getElementById('phone').value,
             email: document.getElementById('email').value,
             city: document.getElementById('city').value,
-            address: document.getElementById('address').value
+            address: document.getElementById('address').value,
+            gstNo: document.getElementById('gstNo').value
+
         },
         products: products,
         summary: {
+            
             subtotal: document.getElementById('summarySubtotal').textContent,
             sgst: document.getElementById('summarySgst').textContent,
             cgst: document.getElementById('summaryCgst').textContent,
